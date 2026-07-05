@@ -1,1031 +1,1009 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <title>Infiltrado - Juego</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>Infiltrado - Juego</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#0f1724; --bg2:#0b1220; --card:#0f172a; --muted:#98a6b3;
+  --accent:#7EE0C9; --accent-dark:#40bfa4; --glass: rgba(255,255,255,0.03);
+  --white: #eef6f5;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+html,body{height:100%;width:100%;margin:0;padding:0;font-family:"Inter",system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(160deg,var(--bg1),#0b2030);color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.app{max-width:920px;margin:0 auto;padding:18px;padding-top:max(18px, env(safe-area-inset-top));padding-bottom:max(18px, env(safe-area-inset-bottom));min-height:100vh;min-height:100dvh;position:relative}
 
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+/* Splash */
+.splash{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;box-sizing:border-box}
+.center-content{display:flex;flex-direction:column;align-items:center;gap:16px}
+.splash .logo img{max-width:260px;width:60vw;height:auto;animation:zoomIn .9s ease}
+.splash .powered{margin-top:80px;font-size:12px;color:var(--muted)}
+@keyframes zoomIn{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.splash-sub{margin-top:10px;color:var(--muted);font-size:15px}
 
-  <style>
-    :root{
-      --bg1:#0f1724; --bg2:#0b1220; --card:#0f172a; --muted:#98a6b3;
-      --accent:#7EE0C9; --accent-dark:#40bfa4; --glass: rgba(255,255,255,0.03);
-      --white: #eef6f5;
-    }
-    *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-    html,body{
-      height:100%;
-      width:100%;
-      margin:0;
-      padding:0;
-      font-family:"Inter",system-ui,Segoe UI,Roboto,Arial;
-      background:linear-gradient(160deg,var(--bg1),#0b2030);
-      color:var(--white);
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
-    }
-    .app{
-      max-width:920px;
-      margin:0 auto;
-      padding:18px;
-      padding-top: max(18px, env(safe-area-inset-top));
-      padding-bottom: max(18px, env(safe-area-inset-bottom));
-      min-height:100vh;
-      min-height:100dvh; /* soluciona el 100vh raro de móviles */
-    }
+/* Menu */
+.menu{display:flex;flex-direction:column;gap:14px}
+.menu-topbar{display:flex;justify-content:flex-end;margin-bottom:-6px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(1,6,12,.6);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card .left{display:flex;align-items:center;gap:12px}
+.emoji{font-size:24px}
+.title{font-weight:700;color:var(--muted);font-size:13px;text-transform:uppercase}
+.btn{background:var(--accent);color:#052425;padding:14px 20px;border-radius:12px;border:none;font-weight:700;cursor:pointer;font-size:16px;box-shadow:0 6px 20px rgba(46,189,157,.12);-webkit-appearance:none;appearance:none;touch-action:manipulation}
+.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--white)}
+.btn.small{padding:10px 14px;font-size:14px}
+input[type=number],select,input[type=text]{background:rgba(255,255,255,.03);border-radius:8px;padding:12px 10px;color:var(--white);outline:none;border:1px solid rgba(255,255,255,.08);font-size:16px;width:100%}
+.muted{color:var(--muted);font-size:13px}
 
-    /* Splash */
-    .splash {
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+.names-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px}
+.name-input{background:rgba(255,255,255,.03);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.02)}
+.name-input input{background:transparent;border:none}
 
-    .center-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-    }
+.hidden{display:none}
+.role-card{margin-top:16px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#071021,#0f2538);text-align:center}
+.role-title{font-weight:700;font-size:20px}
+.role-word{font-size:20px;margin-top:8px;font-weight:400;color:var(--white)}
+.role-hint{font-size:32px;margin-top:12px;color:var(--accent);font-weight:800;line-height:1.25;text-align:center;word-break:break-word}
 
-    .splash .logo img {
-      max-width: 260px;
-      width: 60vw;
-      height: auto;
-      animation: zoomIn 0.9s ease;
-    }
+.play-screen{display:flex;flex-direction:column;gap:18px;align-items:center;width:100%}
+.current-player-big{font-size:26px;font-weight:800;color:var(--white);text-align:center}
+.big-timer{font-size:64px;font-weight:800;color:var(--accent);text-shadow:0 8px 30px rgba(0,0,0,.6)}
+.play-controls{display:flex;gap:10px;flex-direction:column;width:100%;max-width:320px}
+.play-controls .btn{width:100%}
 
-    .splash .powered {
-      margin-top: 80px;
-      font-size: 12px;
-      color: var(--muted);
-    }
+.bottom-bar{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.card[role="button"]{cursor:pointer}
+.card[role="button"]:active{background:rgba(255,255,255,.05)}
 
-    @keyframes zoomIn {
-      0% { transform: scale(0.6); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .splash-sub{margin-top:10px;color:var(--muted); font-size: 15px;}
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,10,18,.85);z-index:1200;padding:20px}
+.modal.hidden{display:none}
+.modal .modal-box{width:100%;max-width:420px;background:linear-gradient(180deg,#101c2c,#0c1522);padding:20px;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.7);max-height:85vh;overflow-y:auto}
+.modal h3{margin:0 0 12px 0;font-size:18px}
 
-    /* Main menu */
-    .menu{display:flex;flex-direction:column;gap:14px}
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(1,6,12,0.6);
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-    }
-    .card .left{display:flex;align-items:center;gap:12px}
-    .emoji{font-size:24px}
-    .title{font-weight:700;color:var(--muted);font-size:13px;text-transform:uppercase}
-    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .btn{
-      background:var(--accent);color:#052425;padding:14px 20px;border-radius:12px;border:none;
-      font-weight:700;cursor:pointer;font-size:16px;
-      box-shadow:0 6px 20px rgba(46,189,157,0.12);
-      -webkit-appearance:none; appearance:none;
-      touch-action: manipulation;
-    }
-    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--white)}
-    input[type=number],select,input[type=text]{
-      background:rgba(255,255,255,0.03);border:none;border-radius:8px;padding:12px 10px;
-      color:var(--white);outline:none;border:1px solid rgba(255,255,255,0.08);
-      font-size:16px; /* evita zoom automático de iOS al enfocar inputs */
-    }
-    .muted{color:var(--muted);font-size:13px}
-    .small{font-size:14px;padding:10px 14px;border-radius:8px}
+.header-logo{display:flex;justify-content:center;align-items:center;margin-bottom:4px;width:100%}
+.menu-logo{max-width:120px;width:28vw;height:auto}
 
-    /* Players editor */
-    .names-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px}
-    .name-input{background:rgba(255,255,255,0.03);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
-    .name-input input { background: transparent; color: var(--white); border: none; outline: none; width:100%; }
+.switch{position:relative;width:46px;height:24px;background:rgba(255,255,255,.2);border-radius:24px;transition:background .3s;display:inline-block;flex-shrink:0}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .3s}
+input[type="checkbox"]:checked + .switch{background:var(--accent)}
+input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 
-    /* Game screens */
-    .hidden{display:none}
-    .role-card{margin-top:16px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#071021, #0f2538);text-align:center}
-    .role-title{font-weight:700;font-size:20px}
+.flip-card{background:transparent;width:min(85vw,320px);height:min(115vw,420px);perspective:1000px;margin:20px auto}
+.flip-card-inner{position:relative;width:100%;height:100%;text-align:center;transition:transform .35s;transform-style:preserve-3d}
+.flip-card-front,.flip-card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;box-shadow:0 10px 30px rgba(1,6,12,.6);display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#071021,#0f2538)}
+.flip-card-front img{max-width:55%;height:auto}
+.flip-card-back{transform:rotateY(180deg);flex-direction:column;padding:24px;position:relative;align-items:center;justify-content:center}
+.flipped .flip-card-inner{transform:rotateY(180deg)}
+.reveal-img{width:min(45vw,170px);opacity:0;transition:all .6s ease;display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.5)}
+.reveal-img.active{opacity:1;transform:translate(-50%,-50%) scale(1)}
 
-    .role-word {
-      font-size: 20px;
-      margin-top: 8px;
-      font-weight: 400;
-      color: var(--white);
-    }
+.loading{position:fixed;inset:0;background:var(--bg1);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999}
+.loading.hidden{display:none}
+.spinner{width:46px;height:46px;border:4px solid rgba(255,255,255,.1);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-    .role-hint {
-      font-size: 32px;
-      margin-top: 12px;
-      color: var(--accent);
-      font-weight: 800;
-      line-height: 1.25;
-      text-align: center;
-      word-break: break-word;
-    }
+/* Chips (saved players) */
+.chips-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:8px 8px 8px 14px;border-radius:999px;font-size:14px;cursor:pointer}
+.chip:active{background:rgba(255,255,255,.1)}
+.chip .chip-x{width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.08);font-size:14px;line-height:1}
+.chip .chip-x:active{background:rgba(255,80,80,.4)}
 
-    .play-screen{display:flex;flex-direction:column;gap:16px;align-items:center; width:100%;}
-    .big-timer{font-size:64px;font-weight:800;color:var(--accent);text-shadow:0 8px 30px rgba(0,0,0,0.6)}
-    .play-controls{display:flex;gap:10px; flex-direction:column; width:100%; max-width:320px;}
-    .play-controls .btn{width:100%;}
+/* Preplay */
+.icon-home-btn{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;padding:0}
+.preplay-wrap{display:flex;flex-direction:column;align-items:center;margin-top:10px}
+.preplay-card{background:linear-gradient(180deg,#0f2538,#071021);border-radius:20px;padding:40px 24px;width:min(80vw,320px);min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 15px 40px rgba(0,0,0,.6);gap:16px}
+.preplay-label{font-size:16px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.preplay-name{font-size:32px;font-weight:800;color:var(--accent);text-align:center;word-break:break-word}
+.preplay-start-btn{width:min(80vw,320px);margin-top:20px;padding:16px;font-size:17px}
 
-    .bottom-bar{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:20px; flex-wrap:wrap;}
+/* Hold button */
+.hold-btn{position:relative;overflow:hidden;width:min(85vw,320px);padding:20px;font-size:15px;background:#ff5566;color:#fff;box-shadow:0 6px 20px rgba(255,85,102,.25)}
+.hold-btn-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:rgba(0,0,0,.3)}
 
-    .card[role="button"] { cursor: pointer; }
-    .card[role="button"]:active { background: rgba(255,255,255,0.05); }
+.impostor-name-item{font-size:22px;font-weight:800;color:#ff5566;background:rgba(255,85,102,.1);padding:10px 20px;border-radius:12px;animation:fadeIn .5s ease}
 
-    .modal {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(5,10,18,0.85);
-      z-index: 1200;
-      padding: 20px;
-    }
-    .modal.hidden { display: none; }
-    .modal .modal-box {
-      width: 100%;
-      max-width: 420px;
-      background: linear-gradient(180deg, #101c2c, #0c1522);
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.7);
-    }
-    .modal h3 { margin: 0 0 12px 0; font-size:18px; }
-    .modal select, .modal input[type="number"] {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border:1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.03);
-      color: var(--white);
-      font-size:16px;
-    }
+/* Carousel */
+.carousel-viewport{overflow:hidden;border-radius:12px}
+.carousel-track{display:flex;transition:transform .4s ease}
+.carousel-slide{min-width:100%;padding:10px 4px;text-align:center}
+.carousel-slide .slide-emoji{font-size:40px;margin-bottom:10px}
+.carousel-slide h4{font-size:19px;margin-bottom:10px}
+.carousel-slide p{color:var(--muted);font-size:14px;line-height:1.5}
+.carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer}
+.carousel-dot.active{background:var(--accent)}
 
-    .header-logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-    .menu-logo {
-      max-width: 120px;
-      width: 28vw;
-      height: auto;
-    }
-
-    .switch {
-      position: relative;
-      width: 46px;
-      height: 24px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 24px;
-      transition: background 0.3s;
-      display:inline-block;
-      flex-shrink:0;
-    }
-    .switch::after {
-      content: "";
-      position: absolute;
-      top: 2px; left: 2px;
-      width: 20px; height: 20px;
-      background: white;
-      border-radius: 50%;
-      transition: transform 0.3s;
-    }
-    input[type="checkbox"]:checked + .switch {
-      background: var(--accent);
-    }
-    input[type="checkbox"]:checked + .switch::after {
-      transform: translateX(22px);
-    }
-
-    /* Flip card - tamaño fluido según pantalla */
-    .flip-card {
-      background: transparent;
-      width: min(85vw, 320px);
-      height: min(115vw, 420px);
-      perspective: 1000px;
-      margin: 20px auto;
-    }
-
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.35s;
-      transform-style: preserve-3d;
-    }
-
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(1,6,12,0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(180deg,#071021,#0f2538);
-    }
-
-    .flip-card-front img {
-      max-width: 55%;
-      height: auto;
-    }
-
-    .flip-card-back {
-      transform: rotateY(180deg);
-      flex-direction: column;
-      padding: 24px;
-      position: relative;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .flipped .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .reveal-img {
-      width: min(45vw, 170px);
-      opacity: 0;
-      transition: all 0.6s ease;
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.5);
-    }
-
-    .reveal-img.active {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-
-    .loading {
-      position: fixed;
-      inset: 0;
-      background: var(--bg1);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    .loading.hidden { display: none; }
-    .spinner {
-      width: 46px;
-      height: 46px;
-      border: 4px solid rgba(255,255,255,0.1);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Tablets/desktop: un poco más de aire */
-    @media(min-width:721px){
-      .app{padding:32px}
-      .menu-logo{max-width:150px; width:150px;}
-      .splash .logo img{max-width:300px; width:300px;}
-    }
-  </style>
+@media(max-width:400px){
+  .flip-card{width:95vw;max-width:280px;height:380px}
+  .role-word{font-size:16px}
+  .role-hint{font-size:28px}
+  .reveal-img{width:140px}
+}
+@media(min-width:721px){
+  .app{padding:32px}
+  .menu-logo{max-width:150px;width:150px}
+  .splash .logo img{max-width:300px;width:300px}
+}
+</style>
 </head>
 <body>
-  <div id="loading" class="loading">
-    <div class="spinner"></div>
-    <div class="muted" style="margin-top:16px">Cargando palabras...</div>
+<div id="loading" class="loading">
+  <div class="spinner"></div>
+  <div class="muted" style="margin-top:16px">Cargando palabras...</div>
+</div>
+
+<div class="app">
+
+  <!-- SPLASH -->
+  <div id="screen-splash" class="splash hidden">
+    <div class="center-content">
+      <div class="logo"><img src="https://i.imgur.com/mBbTWOa.png" alt="Logo Infiltrado"></div>
+      <div class="splash-sub muted">Presiona para iniciar</div>
+      <button id="enterBtn" class="btn">Entrar</button>
+    </div>
+    <div class="powered">Powered by AMMC</div>
   </div>
 
-  <div class="app">
-    <div id="screen-splash" class="splash hidden">
-      <div class="center-content">
-        <div class="logo">
-          <img src="https://i.imgur.com/mBbTWOa.png" alt="Logo Infiltrado">
-        </div>
-        <div class="splash-sub muted">Presiona para iniciar</div>
-        <button id="enterBtn" class="btn">Entrar</button>
-      </div>
-      <div class="powered">Powered by AMMC</div>
+  <!-- MENU -->
+  <div id="screen-menu" class="menu hidden">
+    <div class="menu-topbar">
+      <button id="btnSettings" class="btn secondary small">⚙️ Ajustes</button>
+    </div>
+    <div class="header-logo"><img src="https://i.imgur.com/mBbTWOa.png" alt="Logo" class="menu-logo"></div>
+
+    <div id="card-players" class="card" role="button" tabindex="0">
+      <div class="left"><div class="emoji">✋</div><div><div class="title">Jugadores</div><div id="playersPreview" class="muted">Sin definir</div></div></div>
+    </div>
+    <div id="card-categories" class="card" role="button" tabindex="0">
+      <div class="left"><div class="emoji">🐔</div><div><div class="title">Categorías</div><div id="categoryPreview" class="muted">Mezcla (Aleatorio)</div></div></div>
+    </div>
+    <div id="card-impostors" class="card" role="button" tabindex="0">
+      <div class="left"><div class="emoji">🕵️</div><div><div class="title">Impostores</div><div id="impostorPreview" class="muted">1 impostor</div></div></div>
+    </div>
+    <div id="card-hints" class="card" role="button" tabindex="0">
+      <div class="left"><div class="emoji">💡</div><div><div class="title">Pistas</div><div id="hintPreview" class="muted">Primera letra + largo</div></div></div>
+    </div>
+    <div id="card-timer" class="card" role="button" tabindex="0">
+      <div class="left"><div class="emoji">⏱️</div><div><div class="title">Temporizador</div><div id="timePreview" class="muted">Desactivado</div></div></div>
     </div>
 
-    <div id="screen-menu" class="menu hidden">
-      <div class="header-logo">
-        <img src="https://i.imgur.com/mBbTWOa.png" alt="Logo" class="menu-logo">
-      </div>
-
-      <div id="card-players" class="card" role="button" tabindex="0">
-        <div class="left">
-          <div class="emoji">✋</div>
-          <div>
-            <div class="title">Jugadores</div>
-            <div id="playersPreview" class="muted">Sin definir</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="card-categories" class="card" role="button" tabindex="0">
-        <div class="left">
-          <div class="emoji">🐔</div>
-          <div>
-            <div class="title">Categorías</div>
-            <div id="categoryPreview" class="muted">Mezcla (Aleatorio)</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="card-impostors" class="card" role="button" tabindex="0">
-        <div class="left">
-          <div class="emoji">🕵️</div>
-          <div>
-            <div class="title">Impostores</div>
-            <div id="impostorPreview" class="muted">1 impostor</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="card-hints" class="card" role="button" tabindex="0">
-        <div class="left">
-          <div class="emoji">💡</div>
-          <div>
-            <div class="title">Pistas</div>
-            <div id="hintPreview" class="muted">Primera letra + largo</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="card-timer" class="card" role="button" tabindex="0">
-        <div class="left">
-          <div class="emoji">⏱️</div>
-          <div>
-            <div class="title">Temporizador</div>
-            <div id="timePreview" class="muted">Desactivado</div>
-          </div>
-        </div>
-      </div>
-
-      <div id="modal-categories" class="modal hidden">
-        <div class="modal-box">
-          <h3>Categorías</h3>
-          <select id="selectCategoryModal">
-            <option value="mixed">Mezcla aleatoria</option>
-            <option value="objetos">Objetos</option>
-            <option value="animales">Animales</option>
-            <option value="platos">Platos</option>
-            <option value="paises">Países</option>
-            <option value="actores">Actores famosos y personajes</option>
-            <option value="cantantes">Cantantes famosos y nombres de canciones</option>
-          </select>
-          <div style="height:12px"></div>
-          <div style="display:flex;gap:8px;justify-content:flex-end">
-            <button id="cancelCategoryModal" class="btn secondary">Cancelar</button>
-            <button id="saveCategoryModal" class="btn">Guardar</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="modal-impostors" class="modal hidden">
-        <div class="modal-box">
-          <h3>Impostores (1–3)</h3>
-          <input id="selectImpostorsModal" type="number" min="1" max="3" value="1">
-          <div style="height:12px"></div>
-          <div style="display:flex;gap:8px;justify-content:flex-end">
-            <button id="cancelImpostorsModal" class="btn secondary">Cancelar</button>
-            <button id="saveImpostorsModal" class="btn">Guardar</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="modal-hints" class="modal hidden">
-        <div class="modal-box">
-          <h3>Pistas</h3>
-          <select id="selectHintModal">
-            <option value="none">Sin pistas</option>
-            <option value="first_letter">Primera letra + largo</option>
-            <option value="emoji">Emoji pista</option>
-            <option value="related">Palabra relacionada</option>
-          </select>
-          <div style="height:12px"></div>
-          <div style="display:flex;gap:8px;justify-content:flex-end">
-            <button id="cancelHintsModal" class="btn secondary">Cancelar</button>
-            <button id="saveHintsModal" class="btn">Guardar</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="modal-timer" class="modal hidden">
-        <div class="modal-box">
-          <h3>Temporizador</h3>
-          <label class="muted" style="display:flex;align-items:center;gap:10px;cursor:pointer">
-            <input type="checkbox" id="timerEnabledSwitch" style="display:none">
-            <span class="switch"></span> Activar temporizador
-          </label>
-          <div style="height:12px"></div>
-          <label class="muted">Segundos por turno</label>
-          <input id="timerSecondsModal" type="number" min="5" max="600" value="30" style="margin-top:6px">
-          <div style="height:12px"></div>
-          <div style="display:flex;gap:8px;justify-content:flex-end">
-            <button id="cancelTimerModal" class="btn secondary">Cancelar</button>
-            <button id="saveTimerModal" class="btn">Guardar</button>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:12px;justify-content:center;margin-top:10px">
-        <button id="btnStart" class="btn">Comenzar partida</button>
-        <button id="btnResetAll" class="btn secondary">Reiniciar ajustes</button>
-      </div>
-    </div>
-
-    <div id="screen-players" class="hidden">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div>
-          <div class="title">Jugadores</div>
-          <div class="muted">Define cuántos juegan y sus nombres</div>
-        </div>
-        <button id="backFromPlayers" class="btn secondary small">Volver</button>
-      </div>
-
-      <div class="card" style="flex-direction:column">
-        <label class="muted">Número de jugadores (3–12)</label>
-        <input id="inputNumPlayers" type="number" min="3" max="12" value="6" style="width:100px;margin-top:6px">
-        <div style="height:10px"></div>
-        <div class="muted">Nombres</div>
-        <div id="namesGrid" class="names-grid" style="margin-top:8px"></div>
-        <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end">
-          <button id="savePlayers" class="btn">Guardar</button>
+    <div id="modal-categories" class="modal hidden">
+      <div class="modal-box">
+        <h3>Categorías</h3>
+        <select id="selectCategoryModal">
+          <option value="mixed">Mezcla aleatoria</option>
+          <option value="objetos">Objetos</option>
+          <option value="animales">Animales</option>
+          <option value="platos">Platos</option>
+          <option value="paises">Países</option>
+          <option value="actores">Actores famosos y personajes</option>
+          <option value="cantantes">Cantantes famosos y nombres de canciones</option>
+        </select>
+        <div style="height:12px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button id="cancelCategoryModal" class="btn secondary">Cancelar</button>
+          <button id="saveCategoryModal" class="btn">Guardar</button>
         </div>
       </div>
     </div>
 
-    <div id="screen-reveal" class="hidden" style="text-align:center;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div>
-          <div class="title">Revelar jugadores</div>
-          <div class="muted">Pasa el dispositivo al siguiente</div>
-        </div>
-        <button id="backFromReveal" class="btn secondary small">Volver</button>
-      </div>
-
-      <div id="revealName" class="role-title" style="margin-bottom:14px; font-size:22px;">Jugador 1</div>
-
-      <div class="flip-card" id="roleCard">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <img src="https://i.imgur.com/mBbTWOa.png" alt="Logo Infiltrado">
-          </div>
-          <div class="flip-card-back">
-            <img id="revealImage" src="https://imgur.com/j1C4Dec.png" alt="Reveal" class="hidden reveal-img">
-            <div id="revealRole" class="role-word">—</div>
-            <div id="revealHint" class="role-hint"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bottom-bar">
-        <button id="revealBtn2" class="btn">Revelar</button>
-        <button id="nextReveal" class="btn secondary hidden">Ocultar / Siguiente</button>
-      </div>
-    </div>
-
-    <div id="screen-preplay" class="hidden">
-      <div class="card role-card" style="text-align:center">
-        <div id="playStartName" class="role-title">¡Empieza: Jugador X!</div>
-        <div class="muted" style="margin-top:6px">Presioná "Empezar partida" cuando estén listos</div>
-        <div style="height:10px"></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <button id="beginMatch" class="btn">Empezar partida</button>
-          <button id="backToMenuFromPre" class="btn secondary">Volver al menú</button>
+    <div id="modal-impostors" class="modal hidden">
+      <div class="modal-box">
+        <h3>Impostores (1–3)</h3>
+        <input id="selectImpostorsModal" type="number" min="1" max="3" value="1">
+        <div style="height:12px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button id="cancelImpostorsModal" class="btn secondary">Cancelar</button>
+          <button id="saveImpostorsModal" class="btn">Guardar</button>
         </div>
       </div>
     </div>
 
-    <div id="screen-play" class="hidden">
-      <div class="play-screen">
-        <div class="muted" id="currentPlayerLabel">Turno: Jugador 1</div>
-        <div id="timerBig" class="big-timer">00:30</div>
-        <div id="playRole" class="role-word">No eres impostor</div>
-        <div id="playHint" class="role-hint" style="font-size:24px;"></div>
-
-        <div class="play-controls">
-          <button id="pauseBtn" class="btn secondary">Pausa</button>
-          <button id="resumeBtn" class="btn hidden">Reanudar</button>
-          <button id="nextTurnBtn" class="btn">Siguiente</button>
-          <button id="endMatchBtn" class="btn secondary">Jugar otra partida</button>
-          <button id="backToMenuBtn" class="btn secondary">Volver al menú</button>
+    <div id="modal-hints" class="modal hidden">
+      <div class="modal-box">
+        <h3>Pistas</h3>
+        <select id="selectHintModal">
+          <option value="none">Sin pistas</option>
+          <option value="first_letter">Primera letra + largo</option>
+          <option value="emoji">Emoji pista</option>
+          <option value="related">Palabra relacionada</option>
+        </select>
+        <div style="height:12px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button id="cancelHintsModal" class="btn secondary">Cancelar</button>
+          <button id="saveHintsModal" class="btn">Guardar</button>
         </div>
       </div>
     </div>
 
-    <div id="screen-roundpause" class="hidden">
-      <div class="card role-card">
-        <div class="role-title">Pausa de ronda</div>
-        <div class="muted" style="margin-top:8px">Se completaron los turnos de todos los jugadores</div>
-        <div style="height:10px"></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <button id="startNextRound" class="btn">Empezar siguiente ronda</button>
-          <button id="endMatchFromPause" class="btn secondary">Terminar partida</button>
-          <button id="backToMenuFromPause" class="btn secondary">Volver al menú</button>
+    <div id="modal-timer" class="modal hidden">
+      <div class="modal-box">
+        <h3>Temporizador</h3>
+        <label class="muted" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+          <input type="checkbox" id="timerEnabledSwitch" style="display:none">
+          <span class="switch"></span> Activar temporizador
+        </label>
+        <div style="height:12px"></div>
+        <label class="muted">Segundos por turno</label>
+        <input id="timerSecondsModal" type="number" min="5" max="600" value="30" style="margin-top:6px">
+        <div style="height:12px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button id="cancelTimerModal" class="btn secondary">Cancelar</button>
+          <button id="saveTimerModal" class="btn">Guardar</button>
         </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;justify-content:center;margin-top:10px">
+      <button id="btnStart" class="btn">Comenzar partida</button>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="screen-settings" class="hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div class="title">Ajustes</div>
+      <button id="backFromSettings" class="btn secondary small">Volver</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div id="btnHowto" class="card" role="button" tabindex="0">
+        <div class="left"><div class="emoji">❓</div><div><div class="title">Cómo jugar</div><div class="muted">Reglas del juego paso a paso</div></div></div>
+      </div>
+      <div id="btnCredits" class="card" role="button" tabindex="0">
+        <div class="left"><div class="emoji">ℹ️</div><div><div class="title">Créditos</div><div class="muted">Sobre este proyecto</div></div></div>
+      </div>
+      <div id="btnResetAll" class="card" role="button" tabindex="0">
+        <div class="left"><div class="emoji">🔄</div><div><div class="title">Reiniciar ajustes</div><div class="muted">Vuelve a la configuración por defecto</div></div></div>
       </div>
     </div>
   </div>
 
-  <script>
-    /* =====================================================
-       CONFIGURACIÓN: pega aquí tu URL de Apps Script (/exec)
-       ===================================================== */
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpb8_KMu9bQTCklFRkD0OV3it2lN0a8Ae21S5DnWwU6000Ykqr_Cj0NDWUs5XdmLNo/exec";
+  <!-- MODAL HOWTO -->
+  <div id="modal-howto" class="modal hidden">
+    <div class="modal-box">
+      <h3>¿Cómo se juega?</h3>
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="howtoTrack">
+          <div class="carousel-slide">
+            <div class="slide-emoji">🎭</div>
+            <h4>El objetivo</h4>
+            <p>A cada jugador se le asigna una palabra secreta... excepto a los impostores, que no la conocen.</p>
+          </div>
+          <div class="carousel-slide">
+            <div class="slide-emoji">🗣️</div>
+            <h4>Cada turno</h4>
+            <p>Di una palabra relacionada con la tuya, sin decirla directamente. Sé sutil.</p>
+          </div>
+          <div class="carousel-slide">
+            <div class="slide-emoji">🕵️</div>
+            <h4>El impostor</h4>
+            <p>Debe escuchar bien y fingir que conoce la palabra para no ser descubierto.</p>
+          </div>
+          <div class="carousel-slide">
+            <div class="slide-emoji">🗳️</div>
+            <h4>La votación</h4>
+            <p>Al terminar la ronda, todos votan a quién creen que es el impostor. El más votado queda fuera.</p>
+          </div>
+          <div class="carousel-slide">
+            <div class="slide-emoji">🏆</div>
+            <h4>¿Quién gana?</h4>
+            <p>Si expulsan al impostor, ganan los demás. Si sobrevive, el impostor sigue en juego.</p>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-dots" id="howtoDots"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:14px;gap:8px">
+        <button id="howtoPrev" class="btn secondary small">◀</button>
+        <button id="howtoClose" class="btn small">Cerrar</button>
+        <button id="howtoNext" class="btn secondary small">▶</button>
+      </div>
+    </div>
+  </div>
 
-    let words = {};
-    let wordsLoaded = false;
+  <!-- MODAL CREDITS -->
+  <div id="modal-credits" class="modal hidden">
+    <div class="modal-box" style="text-align:center">
+      <h3>Créditos</h3>
+      <div style="margin:16px 0"><div style="font-size:32px">🎮</div><div style="font-weight:800;font-size:18px;margin-top:6px">Infiltrado</div></div>
+      <div class="muted" style="line-height:1.8">
+        Desarrollado por <strong style="color:var(--accent)">AMMC</strong><br>
+        Hosting: GitHub Pages<br>
+        Palabras: Google Sheets + Google Apps Script
+      </div>
+      <div style="height:16px"></div>
+      <button id="creditsClose" class="btn">Cerrar</button>
+    </div>
+  </div>
 
-    // Carga vía JSONP (evita problemas de CORS con Apps Script)
-    function loadWordsFromSheets() {
-      const callbackName = 'handleWordsResponse';
+  <!-- PLAYERS SCREEN -->
+  <div id="screen-players" class="hidden">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div><div class="title">Jugadores</div><div class="muted">Define cuántos juegan y sus nombres</div></div>
+      <button id="backFromPlayers" class="btn secondary small">Volver</button>
+    </div>
 
-      window[callbackName] = function(data) {
-        words = data;
-        wordsLoaded = true;
+    <div id="savedPlayersSection" class="card hidden" style="flex-direction:column;align-items:flex-start">
+      <div class="muted">Jugadores guardados (toca para añadir)</div>
+      <div id="savedPlayersGrid" class="chips-wrap"></div>
+    </div>
 
-        let totalWords = 0;
-        for (let cat in words) totalWords += (words[cat] || []).length;
+    <div class="card" style="flex-direction:column;margin-top:12px">
+      <label class="muted">Número de jugadores (3–12)</label>
+      <input id="inputNumPlayers" type="number" min="3" max="12" value="6" style="width:100px;margin-top:6px">
+      <div style="height:10px"></div>
+      <div class="muted">Nombres</div>
+      <div id="namesGrid" class="names-grid" style="margin-top:8px"></div>
+      <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end">
+        <button id="savePlayers" class="btn">Guardar</button>
+      </div>
+    </div>
+  </div>
 
-        if (totalWords === 0) {
-          alert('⚠️ No se encontraron palabras en la hoja de cálculo.\n\nAgrega palabras a las hojas: objetos, animales, platos, paises, actores, cantantes');
-        }
+  <!-- REVEAL SEQUENCE -->
+  <div id="screen-reveal" class="hidden" style="text-align:center;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div><div class="title">Revelar jugadores</div><div class="muted">Pasa el dispositivo al siguiente</div></div>
+      <button id="backFromReveal" class="btn secondary small">Volver</button>
+    </div>
+    <div id="revealName" class="role-title" style="margin-bottom:14px;font-size:22px">Jugador 1</div>
+    <div class="flip-card" id="roleCard">
+      <div class="flip-card-inner">
+        <div class="flip-card-front"><img src="https://i.imgur.com/mBbTWOa.png" alt="Logo Infiltrado"></div>
+        <div class="flip-card-back">
+          <img id="revealImage" src="https://imgur.com/j1C4Dec.png" alt="Reveal" class="hidden reveal-img">
+          <div id="revealRole" class="role-word">—</div>
+          <div id="revealHint" class="role-hint"></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <button id="revealBtn2" class="btn">Revelar</button>
+      <button id="nextReveal" class="btn secondary hidden">Ocultar / Siguiente</button>
+    </div>
+  </div>
 
-        document.getElementById('loading').classList.add('hidden');
-        document.getElementById('screen-splash').classList.remove('hidden');
+  <!-- PRE-PLAY -->
+  <div id="screen-preplay" class="hidden">
+    <div style="display:flex">
+      <button id="homeFromPre" class="btn secondary icon-home-btn">🏠</button>
+    </div>
+    <div class="preplay-wrap">
+      <div class="preplay-card">
+        <div class="preplay-label">Empieza:</div>
+        <div id="preplayName" class="preplay-name">Jugador X</div>
+      </div>
+      <button id="beginMatch" class="btn preplay-start-btn">Empezar partida</button>
+    </div>
+  </div>
 
-        script.remove();
-      };
+  <!-- PLAY SCREEN -->
+  <div id="screen-play" class="hidden">
+    <div id="playTimerMode" class="play-screen hidden">
+      <div id="currentPlayerLabel" class="current-player-big">Turno: Jugador 1</div>
+      <div id="timerBig" class="big-timer">00:30</div>
+      <div class="play-controls">
+        <button id="pauseBtn" class="btn secondary">Pausa</button>
+        <button id="resumeBtn" class="btn hidden">Reanudar</button>
+        <button id="nextTurnBtn" class="btn">Siguiente</button>
+        <button id="backToMenuBtn" class="btn secondary">Volver al menú</button>
+      </div>
+    </div>
 
-      const script = document.createElement('script');
-      script.src = APPS_SCRIPT_URL + '?action=words&callback=' + callbackName;
-      script.onerror = function() {
-        alert('Error al conectar con Google Apps Script. Verifica la URL configurada.');
-        document.getElementById('loading').classList.add('hidden');
-        document.getElementById('screen-splash').classList.remove('hidden');
-      };
-      document.body.appendChild(script);
+    <div id="playNoTimerMode" class="play-screen hidden">
+      <div class="muted" style="font-size:16px;text-align:center">Partida en curso — discutan y descubran al impostor</div>
+      <button id="holdEndBtn" class="btn hold-btn">
+        <div class="hold-btn-fill" id="holdFill"></div>
+        <span style="position:relative;z-index:2">🔒 Mantén presionado 4s para terminar</span>
+      </button>
+      <button id="backToMenuBtnNoTimer" class="btn secondary small" style="margin-top:10px">Volver al menú</button>
+    </div>
+  </div>
+
+  <!-- TIMEOUT SCREEN -->
+  <div id="screen-timeout" class="hidden" style="text-align:center">
+    <div class="role-title" style="font-size:26px">⏰ ¡Se acabó el tiempo!</div>
+    <div class="muted" style="margin:16px 0 30px">Turno de: <span id="timeoutPlayerName"></span></div>
+    <button id="continueAfterTimeout" class="btn" style="width:min(80vw,320px)">Continuar partida</button>
+  </div>
+
+  <!-- ROUND PAUSE -->
+  <div id="screen-roundpause" class="hidden">
+    <div class="card role-card">
+      <div class="role-title">Pausa de ronda</div>
+      <div class="muted" style="margin-top:8px">Se completaron los turnos de todos los jugadores</div>
+      <div style="height:10px"></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button id="startNextRound" class="btn">Empezar siguiente ronda</button>
+        <button id="endMatchFromPause" class="btn secondary">Terminar partida</button>
+        <button id="backToMenuFromPause" class="btn secondary">Volver al menú</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVEAL IMPOSTORS (fin de partida sin temporizador) -->
+  <div id="screen-revealimpostors" class="hidden" style="text-align:center">
+    <div class="role-title" style="font-size:26px;margin-bottom:6px">😱 ¡Se acabó la partida!</div>
+    <div class="muted" style="margin-bottom:20px">Los impostores eran:</div>
+    <div id="impostorsList" style="display:flex;flex-direction:column;gap:10px;align-items:center;margin-bottom:30px"></div>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
+      <button id="playAgainBtn" class="btn" style="width:min(80vw,320px)">🔁 Jugar de nuevo</button>
+      <button id="revealBackToMenu" class="btn secondary" style="width:min(80vw,320px)">Volver al menú</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============ CARGA DE PALABRAS (JSONP desde Apps Script) ============ */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpb8_KMu9bQTCklFRkD0OV3it2lN0a8Ae21S5DnWwU6000Ykqr_Cj0NDWUs5XdmLNo/exec";
+let words = {};
+
+function loadWordsFromSheets(){
+  const cb = 'handleWordsResponse';
+  window[cb] = function(data){
+    words = data || {};
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('screen-splash').classList.remove('hidden');
+    script.remove();
+  };
+  const script = document.createElement('script');
+  script.src = APPS_SCRIPT_URL + '?action=words&callback=' + cb;
+  script.onerror = function(){
+    alert('Error al conectar con Google Apps Script. Verifica la URL configurada.');
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('screen-splash').classList.remove('hidden');
+  };
+  document.body.appendChild(script);
+}
+window.addEventListener('load', loadWordsFromSheets);
+
+/* ============ ESTADO ============ */
+let state = {
+  players: Array.from({length:6},(_,i)=>"Jugador "+(i+1)),
+  numPlayers: 6, category:"mixed", impostors:1, hintMode:"first_letter",
+  timerEnabled:false, timerSeconds:30, assignment:[],
+  currentRevealIndex:0, currentTurnIndex:0, roundCount:0,
+  timerRemaining:0, timerInterval:null
+};
+
+function secureRandomInt(max){
+  if(max<=0) return 0;
+  const arr = new Uint32Array(1);
+  window.crypto.getRandomValues(arr);
+  return arr[0] % max;
+}
+
+function show(id){
+  document.querySelectorAll('[id^="screen-"]').forEach(el=>el.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+const q = (id)=>document.getElementById(id);
+
+/* ============ JUGADORES GUARDADOS (localStorage) ============ */
+const STORAGE_KEY = 'infiltrado_saved_players_v1';
+function loadSavedPlayers(){
+  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+function persistSavedPlayers(list){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }catch(e){}
+}
+let savedPlayers = loadSavedPlayers();
+
+function addSavedPlayer(name){
+  const exists = savedPlayers.some(n=>n.toLowerCase()===name.toLowerCase());
+  if(!exists){ savedPlayers.push(name); persistSavedPlayers(savedPlayers); }
+}
+function removeSavedPlayer(name){
+  savedPlayers = savedPlayers.filter(n=>n!==name);
+  persistSavedPlayers(savedPlayers);
+  renderSavedChips();
+}
+function renderSavedChips(){
+  const wrap = q('savedPlayersGrid');
+  wrap.innerHTML = '';
+  if(savedPlayers.length===0){ q('savedPlayersSection').classList.add('hidden'); return; }
+  q('savedPlayersSection').classList.remove('hidden');
+  savedPlayers.forEach(name=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    const label = document.createElement('span');
+    label.textContent = name;
+    label.addEventListener('click', ()=> assignSavedName(name));
+    const x = document.createElement('span');
+    x.className = 'chip-x';
+    x.textContent = '×';
+    x.addEventListener('click', (e)=>{ e.stopPropagation(); removeSavedPlayer(name); });
+    chip.appendChild(label); chip.appendChild(x);
+    wrap.appendChild(chip);
+  });
+}
+function assignSavedName(name){
+  let idx = draftNames.findIndex(v=>!v || !v.trim());
+  if(idx === -1){
+    if(draftNames.length < 12){ draftNames.push(name); q('inputNumPlayers').value = draftNames.length; }
+    else { alert('Ya completaste el máximo de 12 jugadores.'); return; }
+  } else {
+    draftNames[idx] = name;
+  }
+  renderNamesGrid();
+}
+
+/* ============ PANTALLA DE JUGADORES (con fix de bug al cambiar numPlayers) ============ */
+let draftNames = [];
+
+function openPlayersScreen(){
+  draftNames = state.players.slice(0, state.numPlayers);
+  while(draftNames.length < state.numPlayers) draftNames.push('');
+  q('inputNumPlayers').value = state.numPlayers;
+  renderSavedChips();
+  renderNamesGrid();
+  show('screen-players');
+}
+
+function syncDraftFromInputs(){
+  const inputs = Array.from(q('namesGrid').querySelectorAll('input'));
+  inputs.forEach((el,i)=>{ draftNames[i] = el.value; });
+}
+
+function renderNamesGrid(){
+  const grid = q('namesGrid');
+  grid.innerHTML = '';
+  draftNames.forEach((val,i)=>{
+    const wrapper = document.createElement('div');
+    wrapper.className = 'name-input';
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.placeholder = "Jugador "+(i+1);
+    inp.value = val || '';
+    inp.addEventListener('input', ()=>{ draftNames[i] = inp.value; });
+    wrapper.appendChild(inp);
+    grid.appendChild(wrapper);
+  });
+}
+
+q('card-players').addEventListener('click', openPlayersScreen);
+
+q('inputNumPlayers').addEventListener('input', ()=>{
+  syncDraftFromInputs();
+  const n = Math.max(3, Math.min(12, Number(q('inputNumPlayers').value) || 6));
+  if(n > draftNames.length){
+    for(let i=draftNames.length;i<n;i++) draftNames.push('');
+  } else {
+    draftNames.length = n;
+  }
+  renderNamesGrid();
+});
+
+q('savePlayers').addEventListener('click', ()=>{
+  syncDraftFromInputs();
+  const n = draftNames.length;
+  state.numPlayers = Math.max(3, Math.min(12, n));
+  state.players = draftNames.map((v,i)=> (v && v.trim()) || ("Jugador "+(i+1)));
+  state.players.forEach(name=>{
+    if(!/^Jugador\s*\d+$/i.test(name)) addSavedPlayer(name);
+  });
+  refreshMenuPreviews();
+  show('screen-menu');
+});
+
+q('backFromPlayers').addEventListener('click', ()=> show('screen-menu'));
+
+/* ============ MENU / MODALES DE CONFIG ============ */
+q('enterBtn').addEventListener('click', ()=> show('screen-menu'));
+
+q('card-categories').addEventListener('click', ()=> {
+  q('selectCategoryModal').value = state.category;
+  q('modal-categories').classList.remove('hidden');
+});
+q('card-impostors').addEventListener('click', ()=> {
+  q('selectImpostorsModal').value = state.impostors;
+  q('modal-impostors').classList.remove('hidden');
+});
+q('card-hints').addEventListener('click', ()=> {
+  q('selectHintModal').value = state.hintMode;
+  q('modal-hints').classList.remove('hidden');
+});
+q('card-timer').addEventListener('click', ()=> {
+  q('timerEnabledSwitch').checked = state.timerEnabled;
+  q('timerSecondsModal').value = state.timerSeconds;
+  q('modal-timer').classList.remove('hidden');
+});
+
+q('cancelCategoryModal').addEventListener('click', ()=> q('modal-categories').classList.add('hidden'));
+q('saveCategoryModal').addEventListener('click', ()=> {
+  state.category = q('selectCategoryModal').value;
+  q('modal-categories').classList.add('hidden');
+  refreshMenuPreviews();
+});
+q('cancelImpostorsModal').addEventListener('click', ()=> q('modal-impostors').classList.add('hidden'));
+q('saveImpostorsModal').addEventListener('click', ()=> {
+  let v = Number(q('selectImpostorsModal').value) || 1;
+  state.impostors = Math.max(1, Math.min(3, v));
+  q('modal-impostors').classList.add('hidden');
+  refreshMenuPreviews();
+});
+q('cancelHintsModal').addEventListener('click', ()=> q('modal-hints').classList.add('hidden'));
+q('saveHintsModal').addEventListener('click', ()=> {
+  state.hintMode = q('selectHintModal').value;
+  q('modal-hints').classList.add('hidden');
+  refreshMenuPreviews();
+});
+q('cancelTimerModal').addEventListener('click', ()=> q('modal-timer').classList.add('hidden'));
+q('saveTimerModal').addEventListener('click', ()=> {
+  state.timerEnabled = q('timerEnabledSwitch').checked;
+  let secs = Number(q('timerSecondsModal').value) || 30;
+  state.timerSeconds = Math.max(5, Math.min(600, secs));
+  q('modal-timer').classList.add('hidden');
+  refreshMenuPreviews();
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    ['modal-categories','modal-impostors','modal-hints','modal-timer','modal-howto','modal-credits'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el && !el.classList.contains('hidden')) el.classList.add('hidden');
+    });
+  }
+});
+
+function refreshMenuPreviews(){
+  q('playersPreview').textContent = state.players.slice(0,5).join(', ') + (state.numPlayers>5?` +${state.numPlayers-5}`:'');
+  q('categoryPreview').textContent = state.category === 'mixed' ? 'Mezcla (Aleatorio)' : state.category;
+  q('impostorPreview').textContent = state.impostors + (state.impostors === 1 ? ' impostor' : ' impostores');
+  q('hintPreview').textContent = state.hintMode === 'none' ? 'Sin pistas' :
+    (state.hintMode === 'emoji' ? 'Emoji' : state.hintMode === 'related' ? 'Palabra relacionada' : 'Primera letra + largo');
+  q('timePreview').textContent = state.timerEnabled ? `${state.timerSeconds}s por turno` : 'Desactivado';
+}
+refreshMenuPreviews();
+
+/* ============ AJUSTES / COMO JUGAR / CREDITOS ============ */
+q('btnSettings').addEventListener('click', ()=> show('screen-settings'));
+q('backFromSettings').addEventListener('click', ()=> show('screen-menu'));
+
+q('btnResetAll').addEventListener('click', ()=>{
+  if(!confirm('¿Seguro que quieres reiniciar todos los ajustes?')) return;
+  state = {
+    players: Array.from({length:6},(_,i)=>"Jugador "+(i+1)),
+    numPlayers:6, category:"mixed", impostors:1, hintMode:"first_letter",
+    timerEnabled:false, timerSeconds:30, assignment:[], currentRevealIndex:0,
+    currentTurnIndex:0, roundCount:0, timerRemaining:0, timerInterval:null
+  };
+  refreshMenuPreviews();
+  show('screen-menu');
+});
+
+let howtoIndex = 0;
+const HOWTO_SLIDES = 5;
+function buildHowtoDots(){
+  const wrap = q('howtoDots'); wrap.innerHTML = '';
+  for(let i=0;i<HOWTO_SLIDES;i++){
+    const d = document.createElement('div');
+    d.className = 'carousel-dot' + (i===0 ? ' active' : '');
+    d.addEventListener('click', ()=>{ howtoIndex=i; updateHowto(); });
+    wrap.appendChild(d);
+  }
+}
+function updateHowto(){
+  q('howtoTrack').style.transform = `translateX(-${howtoIndex*100}%)`;
+  Array.from(q('howtoDots').children).forEach((d,i)=> d.classList.toggle('active', i===howtoIndex));
+}
+q('btnHowto').addEventListener('click', ()=>{
+  howtoIndex = 0; buildHowtoDots(); updateHowto();
+  q('modal-howto').classList.remove('hidden');
+});
+q('howtoClose').addEventListener('click', ()=> q('modal-howto').classList.add('hidden'));
+q('howtoPrev').addEventListener('click', ()=>{ howtoIndex=(howtoIndex-1+HOWTO_SLIDES)%HOWTO_SLIDES; updateHowto(); });
+q('howtoNext').addEventListener('click', ()=>{ howtoIndex=(howtoIndex+1)%HOWTO_SLIDES; updateHowto(); });
+
+q('btnCredits').addEventListener('click', ()=> q('modal-credits').classList.remove('hidden'));
+q('creditsClose').addEventListener('click', ()=> q('modal-credits').classList.add('hidden'));
+
+/* ============ PISTAS: emoji "inteligente" con diccionario + respaldo ============ */
+const EMOJI_HINTS = {
+  "celular":"📱💬","reloj":"⏰🕰️","silla":"🪑","mochila":"🎒","bicicleta":"🚲",
+  "espejo":"🪞","laptop":"💻","llave":"🔑","vaso":"🥛","bolígrafo":"🖊️",
+  "boligrafo":"🖊️","sombrero":"🎩","lampara":"💡","auriculares":"🎧",
+  "cuaderno":"📓","guitarra":"🎸",
+  "perro":"🐶🐾","gato":"🐱","elefante":"🐘","jirafa":"🦒","panda":"🐼",
+  "delfin":"🐬","oso":"🐻","pingüino":"🐧","pinguino":"🐧","tigre":"🐯",
+  "zorro":"🦊","caballo":"🐴","mono":"🐵","leon":"🦁","aguila":"🦅","cocodrilo":"🐊",
+  "pizza":"🍕","sushi":"🍣","paella":"🥘","arepa":"🫓","ceviche":"🐟🍋",
+  "taco":"🌮","lasagna":"🍝","empanada":"🥟","hamburguesa":"🍔","ramen":"🍜",
+  "pique macho":"🍟🥩","charque":"🥩☀️","silpancho":"🍳🥩","sajta":"🍗🌶️",
+  "bolivia":"🇧🇴","argentina":"🇦🇷","brasil":"🇧🇷","españa":"🇪🇸","espana":"🇪🇸",
+  "mexico":"🇲🇽","canada":"🇨🇦","italia":"🇮🇹","japon":"🇯🇵","francia":"🇫🇷",
+  "alemania":"🇩🇪","chile":"🇨🇱","peru":"🇵🇪","colombia":"🇨🇴","uruguay":"🇺🇾",
+  "leonardo dicaprio":"🚢🎬","scarlett johansson":"🕷️🎬","dwayne johnson":"💪🎬",
+  "tom hanks":"🏐🎬","meryl streep":"🎭","brad pitt":"🥊🎬","julia roberts":"😊🎬",
+  "robert deniro":"🎬🕶️","morgan freeman":"🎙️🎬","jennifer lawrence":"🏹🎬",
+  "shakira":"🐺🎤","bad bunny":"🐰🎤","madonna":"👑🎤","adele":"🎤💔",
+  "rihanna":"☂️🎤","drake":"🦉🎤","beyonce":"🐝🎤","ed sheeran":"🎸🧡",
+  "taylor swift":"🎤💛","bruno mars":"🚀🎤","the weeknd":"🌙🎤","ariana grande":"🎀🎤"
+};
+const CATEGORY_FALLBACK_EMOJI = {
+  objetos:"🔧📦", animales:"🐾🦁", platos:"🍽️😋", paises:"🌍🏳️",
+  actores:"🎬⭐", cantantes:"🎤🎵"
+};
+function getSmartEmojiHint(word){
+  const lower = word.toLowerCase();
+  if(EMOJI_HINTS[lower]) return EMOJI_HINTS[lower];
+  for(const cat in words){
+    if(words[cat] && words[cat].includes(lower)){
+      return CATEGORY_FALLBACK_EMOJI[cat] || '💡❓';
     }
+  }
+  return '💡❓';
+}
 
-    window.addEventListener('load', loadWordsFromSheets);
+function makeHintForImpostor(word, mode){
+  if(mode === 'none') return '';
+  const lower = word.toLowerCase();
+  if(mode === 'first_letter'){
+    const first = (lower.replace(/\s+$/,'')[0] || '?').toUpperCase();
+    return `Empieza con "${first}" y tiene ${lower.length} letras.`;
+  } else if(mode === 'emoji'){
+    return getSmartEmojiHint(lower);
+  } else if(mode === 'related'){
+    const idx = Math.max(1, Math.floor(lower.length/2)-1);
+    return `Tiene "${lower[idx].toUpperCase()}" en el medio y ${lower.length} letras.`;
+  }
+  return '';
+}
+function capitalizeWords(s){ return s.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '); }
 
-    let state = {
-      players: Array.from({length:6}, (_,i)=>"Jugador "+(i+1)),
-      numPlayers: 6,
-      category: "mixed",
-      impostors: 1,
-      hintMode: "first_letter",
-      timerEnabled: false,
-      timerSeconds: 30,
-      assignment: [],
-      currentRevealIndex: 0,
-      currentTurnIndex: 0,
-      roundCount: 0,
-      timerRemaining: 0,
-      timerInterval: null
-    };
+/* ============ FLUJO DE JUEGO: REVEAL POR JUGADOR ============ */
+const FLIP_DURATION = 350;
 
-    function secureRandomInt(max){
-      if(max<=0) return 0;
-      const arr = new Uint32Array(1);
-      window.crypto.getRandomValues(arr);
-      return arr[0] % max;
+q('backFromReveal').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
+
+function renderReveal(){
+  const idx = state.currentRevealIndex;
+  if(idx >= state.numPlayers){
+    let starterPool;
+    if(state.hintMode === 'none'){
+      starterPool = [];
+      for(let i=0;i<state.numPlayers;i++) if(state.assignment[i].role !== 'impostor') starterPool.push(i);
+      if(starterPool.length === 0) starterPool = Array.from({length:state.numPlayers},(_,i)=>i);
+    } else {
+      starterPool = Array.from({length:state.numPlayers},(_,i)=>i);
     }
+    const starter = starterPool[secureRandomInt(starterPool.length)];
+    state.currentTurnIndex = starter;
+    q('preplayName').textContent = state.players[starter] || ("Jugador "+(starter+1));
+    show('screen-preplay');
+    return;
+  }
+  const rc = q('roleCard');
+  if(rc) rc.classList.remove('flipped');
+  q('revealBtn2').classList.remove('hidden');
+  q('nextReveal').classList.add('hidden');
+  q('revealName').textContent = state.players[idx] || ("Jugador "+(idx+1));
+  q('revealRole').textContent = '—';
+  q('revealHint').textContent = '';
+}
 
-    function shuffle(arr){
-      const a = arr.slice();
-      for(let i=a.length-1;i>0;i--){
-        const j = secureRandomInt(i+1);
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    }
+q('revealBtn2').addEventListener('click', ()=>{
+  const idx = state.currentRevealIndex;
+  if(idx >= state.numPlayers) return;
+  const info = state.assignment[idx] || {};
+  const rc = q('roleCard');
+  if(rc) rc.classList.add('flipped');
+  q('revealBtn2').classList.add('hidden');
+  q('nextReveal').classList.remove('hidden');
 
-    function show(id){
-      document.querySelectorAll('[id^="screen-"]').forEach(el=>el.classList.add('hidden'));
-      document.getElementById(id).classList.remove('hidden');
-      window.scrollTo({top:0,behavior:'smooth'});
-    }
+  const img = q('revealImage'), role = q('revealRole'), hint = q('revealHint');
+  role.style.display = "none"; hint.style.display = "none";
+  img.classList.remove('hidden');
+  setTimeout(()=> img.classList.add('active'), 150);
 
-    const q = (id)=>document.getElementById(id);
-
-    q('enterBtn').addEventListener('click', ()=> show('screen-menu'));
-
-    q('card-players').addEventListener('click', ()=> {
-      q('inputNumPlayers').value = state.numPlayers;
-      renderNamesGrid();
-      show('screen-players');
-    });
-
-    q('card-categories').addEventListener('click', ()=> {
-      q('selectCategoryModal').value = state.category;
-      q('modal-categories').classList.remove('hidden');
-    });
-
-    q('card-impostors').addEventListener('click', ()=> {
-      q('selectImpostorsModal').value = state.impostors;
-      q('modal-impostors').classList.remove('hidden');
-    });
-
-    q('card-hints').addEventListener('click', ()=> {
-      q('selectHintModal').value = state.hintMode;
-      q('modal-hints').classList.remove('hidden');
-    });
-
-    q('card-timer').addEventListener('click', ()=> {
-      q('timerEnabledSwitch').checked = state.timerEnabled;
-      q('timerSecondsModal').value = state.timerSeconds;
-      q('modal-timer').classList.remove('hidden');
-    });
-
-    q('cancelCategoryModal').addEventListener('click', ()=> q('modal-categories').classList.add('hidden'));
-    q('saveCategoryModal').addEventListener('click', ()=> {
-      state.category = q('selectCategoryModal').value;
-      q('modal-categories').classList.add('hidden');
-      refreshMenuPreviews();
-    });
-
-    q('cancelImpostorsModal').addEventListener('click', ()=> q('modal-impostors').classList.add('hidden'));
-    q('saveImpostorsModal').addEventListener('click', ()=> {
-      let v = Number(q('selectImpostorsModal').value) || 1;
-      state.impostors = Math.max(1, Math.min(3, v));
-      q('modal-impostors').classList.add('hidden');
-      refreshMenuPreviews();
-    });
-
-    q('cancelHintsModal').addEventListener('click', ()=> q('modal-hints').classList.add('hidden'));
-    q('saveHintsModal').addEventListener('click', ()=> {
-      state.hintMode = q('selectHintModal').value;
-      q('modal-hints').classList.add('hidden');
-      refreshMenuPreviews();
-    });
-
-    q('cancelTimerModal').addEventListener('click', ()=> q('modal-timer').classList.add('hidden'));
-    q('saveTimerModal').addEventListener('click', ()=> {
-      state.timerEnabled = q('timerEnabledSwitch').checked;
-      let secs = Number(q('timerSecondsModal').value) || 30;
-      state.timerSeconds = Math.max(5, Math.min(600, secs));
-      q('modal-timer').classList.add('hidden');
-      refreshMenuPreviews();
-    });
-
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){
-        ['modal-categories','modal-impostors','modal-hints','modal-timer'].forEach(id=>{
-          const el = document.getElementById(id);
-          if(el && !el.classList.contains('hidden')) el.classList.add('hidden');
-        });
-      }
-    });
-
-    q('backFromPlayers').addEventListener('click', ()=> show('screen-menu'));
-    q('backFromReveal').addEventListener('click', ()=> {
-      stopTimer();
-      show('screen-menu');
-    });
-
-    q('btnResetAll').addEventListener('click', ()=>{
-      state = {
-        players: Array.from({length:6}, (_,i)=>"Jugador "+(i+1)),
-        numPlayers: 6, category: "mixed", impostors:1, hintMode:"first_letter",
-        timerEnabled:false, timerSeconds:30, assignment:[], currentRevealIndex:0,
-        currentTurnIndex:0, roundCount:0, timerRemaining:0, timerInterval:null
-      };
-      refreshMenuPreviews();
-    });
-
-    q('inputNumPlayers').addEventListener('input', renderNamesGrid);
-
-    function renderNamesGrid(){
-      const n = Number(q('inputNumPlayers').value) || 6;
-      const grid = q('namesGrid');
-      grid.innerHTML = '';
-
-      for(let i=0;i<n;i++){
-        const wrapper = document.createElement('div');
-        wrapper.className = 'name-input';
-
-        const inp = document.createElement('input');
-        inp.type = 'text';
-        const defaultName = state.players[i] || ("Jugador "+(i+1));
-
-        const isDefaultPattern = /^Jugador\s*\d+$/i.test(state.players[i] || '');
-        if(state.players[i] && !isDefaultPattern){
-          inp.value = state.players[i];
-        } else {
-          inp.value = '';
-        }
-
-        inp.placeholder = defaultName;
-        inp.dataset.default = defaultName;
-
-        wrapper.appendChild(inp);
-        grid.appendChild(wrapper);
-      }
-    }
-
-    q('savePlayers').addEventListener('click', ()=>{
-      const n = Number(q('inputNumPlayers').value) || 6;
-      state.numPlayers = Math.max(3, Math.min(12, n));
-      const inputs = Array.from(q('namesGrid').querySelectorAll('input'));
-
-      state.players = inputs.map((el,i)=>{
-        const v = el.value.trim();
-        return v || el.dataset.default || ("Jugador "+(i+1));
-      });
-
-      state.players.length = state.numPlayers;
-      refreshMenuPreviews();
-      show('screen-menu');
-    });
-
-    function refreshMenuPreviews(){
-      q('playersPreview').textContent = state.players.slice(0,5).join(', ') + (state.numPlayers>5?` +${state.numPlayers-5}`:'');
-      q('categoryPreview').textContent = state.category === 'mixed' ? 'Mezcla (Aleatorio)' : state.category;
-      q('impostorPreview').textContent = state.impostors + (state.impostors === 1 ? ' impostor' : ' impostores');
-      q('hintPreview').textContent = state.hintMode === 'none' ? 'Sin pistas' :
-                                    (state.hintMode === 'emoji' ? 'Emoji' :
-                                     state.hintMode === 'related' ? 'Palabra relacionada' : 'Primera letra + largo');
-      q('timePreview').textContent = state.timerEnabled ? `${state.timerSeconds}s por turno` : 'Desactivado';
-    }
-    refreshMenuPreviews();
-
-    const FLIP_DURATION = 350;
-
-    function renderReveal(){
-      const idx = state.currentRevealIndex;
-      if(idx >= state.numPlayers){
-        const starter = secureRandomInt(state.numPlayers);
-        state.currentTurnIndex = starter;
-        q('playStartName').textContent = "¡Empieza: " + (state.players[starter] || ("Jugador "+(starter+1))) + "!";
-        show('screen-preplay');
-        return;
-      }
-
-      const rc = q('roleCard');
-      if(rc) rc.classList.remove('flipped');
-      q('revealBtn2').classList.remove('hidden');
-      q('nextReveal').classList.add('hidden');
-
-      q('revealName').textContent = state.players[idx] || ("Jugador "+(idx+1));
-      q('revealRole').textContent = '—';
-      q('revealHint').textContent = '';
-    }
-
-    q('revealBtn2').addEventListener('click', ()=>{
-      const idx = state.currentRevealIndex;
-      if(idx >= state.numPlayers) return;
-
-      const info = state.assignment[idx] || {};
-      const rc = q('roleCard');
-      if(rc) rc.classList.add('flipped');
-
-      q('revealBtn2').classList.add('hidden');
-      q('nextReveal').classList.remove('hidden');
-
-      const img = q('revealImage');
-      const role = q('revealRole');
-      const hint = q('revealHint');
-
-      role.style.display = "none";
-      hint.style.display = "none";
-
-      img.classList.remove('hidden');
-
-      setTimeout(()=>{
-        img.classList.add('active');
-      }, 150);
-
-      setTimeout(()=>{
-        img.classList.remove('active');
-
-        setTimeout(()=>{
-          img.classList.add('hidden');
-
-          if(info.role === 'impostor'){
-            role.textContent = 'Eres IMPOSTOR';
-            role.style.fontWeight = '400';
-            hint.textContent = info.hint || 'Sin pistas';
-            hint.style.fontWeight = '800';
-            hint.style.color = '#ff5566';
-          } else {
-            role.textContent = 'No eres impostor';
-            role.style.fontWeight = '400';
-            hint.textContent = info.word || '';
-            hint.style.fontWeight = '800';
-            hint.style.color = 'var(--accent)';
-          }
-
-          role.style.display = "block";
-          hint.style.display = "block";
-          role.style.opacity = "0";
-          hint.style.opacity = "0";
-
-          setTimeout(()=>{
-            role.style.transition = 'opacity 0.5s ease';
-            hint.style.transition = 'opacity 0.5s ease';
-            role.style.opacity = "1";
-            hint.style.opacity = "1";
-          }, 50);
-
-        }, 200);
-      }, 1500);
-    });
-
-    q('nextReveal').addEventListener('click', ()=>{
-      const rc = q('roleCard');
-      if(rc) rc.classList.remove('flipped');
-
-      setTimeout(()=>{
-        state.currentRevealIndex++;
-        renderReveal();
-      }, FLIP_DURATION + 20);
-    });
-
-    q('btnStart').addEventListener('click', ()=> {
-      if(state.numPlayers < 3){ alert('Minimo 3 jugadores'); return; }
-      if(state.impostors >= state.numPlayers){ alert('Debe haber al menos 1 jugador no impostor'); return; }
-
-      const pool = (state.category === 'mixed') ? [].concat(...Object.values(words)) : words[state.category] || [].concat(...Object.values(words));
-
-      if(pool.length === 0){
-        alert('No hay palabras disponibles. Verifica tu hoja de cálculo.');
-        return;
-      }
-
-      const target = pool[secureRandomInt(pool.length)];
-
-      let impostorIndexes = [];
-      while(impostorIndexes.length < state.impostors){
-        const idx = secureRandomInt(state.numPlayers);
-        if(!impostorIndexes.includes(idx)) impostorIndexes.push(idx);
-      }
-
-      state.assignment = [];
-      for(let i=0;i<state.numPlayers;i++){
-        if(impostorIndexes.includes(i)){
-          state.assignment.push({ role:'impostor', word:null, hint: makeHintForImpostor(target, state.hintMode) });
-        } else {
-          state.assignment.push({ role:'normal', word: capitalizeWords(target), hint: null });
-        }
-      }
-
-      state.currentRevealIndex = 0;
-      state.currentTurnIndex = 0;
-      state.roundCount = 1;
-
-      show('screen-reveal');
-      renderReveal();
-    });
-
-    function makeHintForImpostor(word, mode){
-      if(mode === 'none') return '';
-      const lower = word.toLowerCase();
-      if(mode === 'first_letter') {
-        const first = (lower.replace(/\s+$/,'')[0] || '?').toUpperCase();
-        return `Empieza con "${first}" y tiene ${lower.length} letras.`;
-      } else if(mode === 'emoji') {
-        if(words.animales && words.animales.includes(lower)) return '🐾 Es un animal.';
-        if(words.platos && words.platos.includes(lower)) return '🍽️ Es comida.';
-        if(words.paises && words.paises.includes(lower)) return '🌍 Es un país.';
-        if(words.objetos && words.objetos.includes(lower)) return '🔧 Es un objeto.';
-        if((words.actores && words.actores.includes(lower)) || (words.cantantes && words.cantantes.includes(lower))) return '🎤 Es algo famoso.';
-        return '💡 Pista vaga.';
-      } else if(mode === 'related') {
-        const idx = Math.max(1, Math.floor(lower.length/2)-1);
-        return `Tiene "${lower[idx].toUpperCase()}" en el medio y ${lower.length} letras.`;
-      }
-      return '';
-    }
-
-    function capitalizeWords(s){
-      return s.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
-    }
-
-    q('beginMatch').addEventListener('click', ()=>{
-      state.timerRemaining = state.timerSeconds;
-      state.timerInterval = null;
-      state.roundCount = 1;
-      renderPlayScreen();
-      show('screen-play');
-      if(state.timerEnabled) startTimer();
-    });
-
-    q('backToMenuFromPre').addEventListener('click', ()=> show('screen-menu'));
-
-    function renderPlayScreen(){
-      const idx = state.currentTurnIndex;
-      q('currentPlayerLabel').textContent = "Turno: " + (state.players[idx] || ("Jugador "+(idx+1)));
-      const info = state.assignment[idx];
-      q('playRole').textContent = (info.role === 'impostor') ? "Eres IMPOSTOR" : "No eres impostor";
-      q('playHint').textContent = (info.role === 'impostor' && state.hintMode !== 'none') ? info.hint : '';
-      if(state.timerEnabled){
-        q('timerBig').style.display = 'block';
-        updateTimerDisplay();
+  setTimeout(()=>{
+    img.classList.remove('active');
+    setTimeout(()=>{
+      img.classList.add('hidden');
+      if(info.role === 'impostor'){
+        role.textContent = 'Eres IMPOSTOR'; role.style.fontWeight = '400';
+        hint.textContent = info.hint || 'Sin pistas'; hint.style.fontWeight = '800'; hint.style.color = '#ff5566';
       } else {
-        q('timerBig').style.display = 'none';
+        role.textContent = 'No eres impostor'; role.style.fontWeight = '400';
+        hint.textContent = info.word || ''; hint.style.fontWeight = '800'; hint.style.color = 'var(--accent)';
       }
-      q('resumeBtn').classList.add('hidden');
-      q('pauseBtn').classList.remove('hidden');
+      role.style.display = "block"; hint.style.display = "block";
+      role.style.opacity = "0"; hint.style.opacity = "0";
+      setTimeout(()=>{
+        role.style.transition = 'opacity .5s ease'; hint.style.transition = 'opacity .5s ease';
+        role.style.opacity = "1"; hint.style.opacity = "1";
+      }, 50);
+    }, 200);
+  }, 1500);
+});
+
+q('nextReveal').addEventListener('click', ()=>{
+  const rc = q('roleCard');
+  if(rc) rc.classList.remove('flipped');
+  setTimeout(()=>{ state.currentRevealIndex++; renderReveal(); }, FLIP_DURATION + 20);
+});
+
+/* ============ INICIAR / REINICIAR PARTIDA ============ */
+function startNewGame(){
+  if(state.numPlayers < 3){ alert('Minimo 3 jugadores'); return; }
+  if(state.impostors >= state.numPlayers){ alert('Debe haber al menos 1 jugador no impostor'); return; }
+
+  const pool = (state.category === 'mixed') ? [].concat(...Object.values(words)) : (words[state.category] || [].concat(...Object.values(words)));
+  if(pool.length === 0){ alert('No hay palabras disponibles. Verifica tu hoja de cálculo.'); return; }
+
+  const target = pool[secureRandomInt(pool.length)];
+  let impostorIndexes = [];
+  while(impostorIndexes.length < state.impostors){
+    const idx = secureRandomInt(state.numPlayers);
+    if(!impostorIndexes.includes(idx)) impostorIndexes.push(idx);
+  }
+
+  state.assignment = [];
+  for(let i=0;i<state.numPlayers;i++){
+    if(impostorIndexes.includes(i)){
+      state.assignment.push({ role:'impostor', word:null, hint: makeHintForImpostor(target, state.hintMode) });
+    } else {
+      state.assignment.push({ role:'normal', word: capitalizeWords(target), hint: null });
     }
+  }
 
-    function startTimer(){
-      if(!state.timerEnabled) return;
-      stopTimer();
-      state.timerRemaining = state.timerSeconds;
-      updateTimerDisplay();
-      state.timerInterval = setInterval(()=>{
-        state.timerRemaining--;
-        updateTimerDisplay();
-        if(state.timerRemaining <= 0){
-          stopTimer();
-          q('timerBig').textContent = '¡El tiempo se acabó!';
-        }
-      }, 1000);
+  state.currentRevealIndex = 0;
+  state.currentTurnIndex = 0;
+  state.roundCount = 1;
+
+  show('screen-reveal');
+  renderReveal();
+}
+q('btnStart').addEventListener('click', startNewGame);
+q('playAgainBtn').addEventListener('click', startNewGame);
+
+/* ============ PRE-PLAY ============ */
+q('homeFromPre').addEventListener('click', ()=> show('screen-menu'));
+
+q('beginMatch').addEventListener('click', ()=>{
+  state.timerRemaining = state.timerSeconds;
+  state.roundCount = 1;
+  renderPlayScreen();
+  show('screen-play');
+  if(state.timerEnabled) startTimer();
+});
+
+/* ============ PANTALLA DE JUEGO ============ */
+function renderPlayScreen(){
+  const idx = state.currentTurnIndex;
+  const name = state.players[idx] || ("Jugador "+(idx+1));
+  if(state.timerEnabled){
+    q('playTimerMode').classList.remove('hidden');
+    q('playNoTimerMode').classList.add('hidden');
+    q('currentPlayerLabel').textContent = "Turno: " + name;
+    updateTimerDisplay();
+    q('resumeBtn').classList.add('hidden');
+    q('pauseBtn').classList.remove('hidden');
+  } else {
+    q('playTimerMode').classList.add('hidden');
+    q('playNoTimerMode').classList.remove('hidden');
+  }
+}
+
+function beep(){
+  try{
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new Ctx();
+    let t = ctx.currentTime;
+    for(let i=0;i<3;i++){
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'square'; o.frequency.value = 880;
+      o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.15, t);
+      o.start(t); o.stop(t+0.15);
+      t += 0.25;
     }
+    setTimeout(()=>ctx.close(), 1200);
+  }catch(e){ /* silencioso si el navegador bloquea audio sin interacción previa */ }
+}
 
-    function stopTimer(){
-      if(state.timerInterval) clearInterval(state.timerInterval);
-      state.timerInterval = null;
+function startTimer(){
+  if(!state.timerEnabled) return;
+  stopTimer();
+  state.timerRemaining = state.timerSeconds;
+  updateTimerDisplay();
+  state.timerInterval = setInterval(()=>{
+    state.timerRemaining--;
+    updateTimerDisplay();
+    if(state.timerRemaining <= 0){
+      stopTimer();
+      beep();
+      q('timeoutPlayerName').textContent = state.players[state.currentTurnIndex] || '';
+      show('screen-timeout');
     }
+  }, 1000);
+}
+function stopTimer(){
+  if(state.timerInterval) clearInterval(state.timerInterval);
+  state.timerInterval = null;
+}
+function updateTimerDisplay(){
+  const s = Math.max(0, state.timerRemaining);
+  const mm = Math.floor(s/60).toString().padStart(2,'0');
+  const ss = (s%60).toString().padStart(2,'0');
+  q('timerBig').textContent = `${mm}:${ss}`;
+}
 
-    function updateTimerDisplay(){
-      const s = Math.max(0, state.timerRemaining);
-      const mm = Math.floor(s/60).toString().padStart(2,'0');
-      const ss = (s%60).toString().padStart(2,'0');
-      q('timerBig').textContent = `${mm}:${ss}`;
+q('pauseBtn').addEventListener('click', ()=>{
+  stopTimer();
+  q('pauseBtn').classList.add('hidden');
+  q('resumeBtn').classList.remove('hidden');
+});
+q('resumeBtn').addEventListener('click', ()=>{
+  if(state.timerEnabled){
+    startTimer();
+    q('resumeBtn').classList.add('hidden');
+    q('pauseBtn').classList.remove('hidden');
+  }
+});
+
+function advanceTurn(){
+  state.currentTurnIndex = (state.currentTurnIndex + 1) % state.numPlayers;
+  if(state.currentTurnIndex === 0){
+    show('screen-roundpause');
+  } else {
+    renderPlayScreen();
+    show('screen-play');
+    if(state.timerEnabled) startTimer();
+  }
+}
+q('nextTurnBtn').addEventListener('click', ()=>{ stopTimer(); advanceTurn(); });
+q('continueAfterTimeout').addEventListener('click', ()=> advanceTurn());
+
+q('backToMenuBtn').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
+q('backToMenuBtnNoTimer').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
+q('startNextRound').addEventListener('click', ()=>{
+  state.roundCount++;
+  state.currentTurnIndex = 0;
+  renderPlayScreen();
+  show('screen-play');
+  if(state.timerEnabled) startTimer();
+});
+q('endMatchFromPause').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
+q('backToMenuFromPause').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
+
+/* ============ FIN DE PARTIDA SIN TEMPORIZADOR: mantener presionado ============ */
+let holdTimeout = null;
+const holdBtn = q('holdEndBtn'), holdFill = q('holdFill');
+
+function startHold(){
+  holdFill.style.transition = 'width 4s linear';
+  requestAnimationFrame(()=>{ holdFill.style.width = '100%'; });
+  holdTimeout = setTimeout(triggerRevealImpostors, 4000);
+}
+function cancelHold(){
+  clearTimeout(holdTimeout);
+  holdFill.style.transition = 'width .2s ease';
+  holdFill.style.width = '0%';
+}
+holdBtn.addEventListener('pointerdown', startHold);
+['pointerup','pointerleave','pointercancel'].forEach(evt => holdBtn.addEventListener(evt, cancelHold));
+
+function triggerRevealImpostors(){
+  cancelHold();
+  const list = q('impostorsList');
+  list.innerHTML = '';
+  state.assignment.forEach((a,i)=>{
+    if(a.role === 'impostor'){
+      const div = document.createElement('div');
+      div.className = 'impostor-name-item';
+      div.textContent = '🕵️ ' + (state.players[i] || ("Jugador "+(i+1)));
+      list.appendChild(div);
     }
-
-    q('pauseBtn').addEventListener('click', ()=>{
-      stopTimer();
-      q('pauseBtn').classList.add('hidden');
-      q('resumeBtn').classList.remove('hidden');
-    });
-
-    q('resumeBtn').addEventListener('click', ()=>{
-      if(state.timerEnabled){
-        startTimer();
-        q('resumeBtn').classList.add('hidden');
-        q('pauseBtn').classList.remove('hidden');
-      }
-    });
-
-    q('nextTurnBtn').addEventListener('click', ()=>{
-      stopTimer();
-      state.currentTurnIndex = (state.currentTurnIndex + 1) % state.numPlayers;
-
-      if(state.currentTurnIndex === 0){
-        show('screen-roundpause');
-      } else {
-        renderPlayScreen();
-        if(state.timerEnabled) startTimer();
-      }
-    });
-
-    q('endMatchBtn').addEventListener('click', ()=> {
-      stopTimer();
-      show('screen-menu');
-    });
-
-    q('backToMenuBtn').addEventListener('click', ()=>{
-      stopTimer();
-      show('screen-menu');
-    });
-
-    q('startNextRound').addEventListener('click', ()=>{
-      state.roundCount++;
-      state.currentTurnIndex = 0;
-      renderPlayScreen();
-      show('screen-play');
-      if(state.timerEnabled) startTimer();
-    });
-
-    q('endMatchFromPause').addEventListener('click', ()=> {
-      stopTimer();
-      show('screen-menu');
-    });
-
-    q('backToMenuFromPause').addEventListener('click', ()=> {
-      stopTimer();
-      show('screen-menu');
-    });
-
-    renderNamesGrid();
-  </script>
+  });
+  show('screen-revealimpostors');
+}
+q('revealBackToMenu').addEventListener('click', ()=> show('screen-menu'));
+</script>
 </body>
 </html>
