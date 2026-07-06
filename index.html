@@ -15,7 +15,6 @@
 html,body{height:100%;width:100%;margin:0;padding:0;font-family:"Inter",system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(160deg,var(--bg1),#0b2030);color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .app{max-width:920px;margin:0 auto;padding:18px;padding-top:max(18px, env(safe-area-inset-top));padding-bottom:max(18px, env(safe-area-inset-bottom));min-height:100vh;min-height:100dvh;position:relative}
 
-/* Splash */
 .splash{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;box-sizing:border-box}
 .center-content{display:flex;flex-direction:column;align-items:center;gap:16px}
 .splash .logo img{max-width:260px;width:60vw;height:auto;animation:zoomIn .9s ease}
@@ -24,9 +23,11 @@ html,body{height:100%;width:100%;margin:0;padding:0;font-family:"Inter",system-u
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .splash-sub{margin-top:10px;color:var(--muted);font-size:15px}
 
-/* Menu */
+.screen-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px}
+.screen-header .title{font-size:15px}
+.screen-header .muted{font-size:13px}
+
 .menu{display:flex;flex-direction:column;gap:14px}
-.menu-topbar{display:flex;justify-content:flex-end;margin-bottom:-6px}
 .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(1,6,12,.6);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .card .left{display:flex;align-items:center;gap:12px}
 .emoji{font-size:24px}
@@ -37,17 +38,19 @@ html,body{height:100%;width:100%;margin:0;padding:0;font-family:"Inter",system-u
 input[type=number],select,input[type=text]{background:rgba(255,255,255,.03);border-radius:8px;padding:12px 10px;color:var(--white);outline:none;border:1px solid rgba(255,255,255,.08);font-size:16px;width:100%}
 .muted{color:var(--muted);font-size:13px}
 
-.names-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px}
-.name-input{background:rgba(255,255,255,.03);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.02)}
-.name-input input{background:transparent;border:none}
+.names-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+.name-input{background:rgba(255,255,255,.04);padding:10px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;transition:border-color .2s}
+.name-input:focus-within{border-color:var(--accent)}
+.name-input .avatar{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#052425;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.name-input input{flex:1;background:transparent;border:none;padding:0;font-size:15px}
 
 .hidden{display:none}
-.role-card{margin-top:16px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#071021,#0f2538);text-align:center}
+.role-card{margin-top:16px;padding:24px 18px;border-radius:16px;background:linear-gradient(180deg,#071021,#0f2538);text-align:center}
 .role-title{font-weight:700;font-size:20px}
 .role-word{font-size:20px;margin-top:8px;font-weight:400;color:var(--white)}
 .role-hint{font-size:32px;margin-top:12px;color:var(--accent);font-weight:800;line-height:1.25;text-align:center;word-break:break-word}
 
-.play-screen{display:flex;flex-direction:column;gap:18px;align-items:center;width:100%}
+.play-screen{display:flex;flex-direction:column;gap:20px;align-items:center;width:100%}
 .current-player-big{font-size:26px;font-weight:800;color:var(--white);text-align:center}
 .big-timer{font-size:64px;font-weight:800;color:var(--accent);text-shadow:0 8px 30px rgba(0,0,0,.6)}
 .play-controls{display:flex;gap:10px;flex-direction:column;width:100%;max-width:320px}
@@ -84,28 +87,24 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 .spinner{width:46px;height:46px;border:4px solid rgba(255,255,255,.1);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Chips (saved players) */
 .chips-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:8px 8px 8px 14px;border-radius:999px;font-size:14px;cursor:pointer}
 .chip:active{background:rgba(255,255,255,.1)}
 .chip .chip-x{width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.08);font-size:14px;line-height:1}
 .chip .chip-x:active{background:rgba(255,80,80,.4)}
 
-/* Preplay */
-.icon-home-btn{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;padding:0}
+.icon-home-btn{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;padding:0;flex-shrink:0}
 .preplay-wrap{display:flex;flex-direction:column;align-items:center;margin-top:10px}
-.preplay-card{background:linear-gradient(180deg,#0f2538,#071021);border-radius:20px;padding:40px 24px;width:min(80vw,320px);min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 15px 40px rgba(0,0,0,.6);gap:16px}
+.preplay-card{background:linear-gradient(180deg,#0f2538,#071021);border-radius:20px;padding:40px 24px;width:min(80vw,320px);min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 15px 40px rgba(0,0,0,.6);gap:16px}
 .preplay-label{font-size:16px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px}
 .preplay-name{font-size:32px;font-weight:800;color:var(--accent);text-align:center;word-break:break-word}
 .preplay-start-btn{width:min(80vw,320px);margin-top:20px;padding:16px;font-size:17px}
 
-/* Hold button */
-.hold-btn{position:relative;overflow:hidden;width:min(85vw,320px);padding:20px;font-size:15px;background:#ff5566;color:#fff;box-shadow:0 6px 20px rgba(255,85,102,.25)}
+.hold-btn{position:relative;overflow:hidden;padding:18px;font-size:15px;background:#ff5566;color:#fff;box-shadow:0 6px 20px rgba(255,85,102,.25)}
 .hold-btn-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:rgba(0,0,0,.3)}
 
-.impostor-name-item{font-size:22px;font-weight:800;color:#ff5566;background:rgba(255,85,102,.1);padding:10px 20px;border-radius:12px;animation:fadeIn .5s ease}
+.impostor-card-item{font-size:20px;font-weight:800;color:#ff8899;background:rgba(255,85,102,.1);border:1px solid rgba(255,85,102,.25);padding:14px 22px;border-radius:14px;animation:fadeIn .5s ease;width:min(80vw,300px);text-align:center}
 
-/* Carousel */
 .carousel-viewport{overflow:hidden;border-radius:12px}
 .carousel-track{display:flex;transition:transform .4s ease}
 .carousel-slide{min-width:100%;padding:10px 4px;text-align:center}
@@ -115,6 +114,9 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 .carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
 .carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer}
 .carousel-dot.active{background:var(--accent)}
+
+.vote-title{font-size:28px;font-weight:800;text-align:center;margin-bottom:6px}
+.vote-sub{text-align:center;margin-bottom:26px}
 
 @media(max-width:400px){
   .flip-card{width:95vw;max-width:280px;height:380px}
@@ -149,9 +151,6 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 
   <!-- MENU -->
   <div id="screen-menu" class="menu hidden">
-    <div class="menu-topbar">
-      <button id="btnSettings" class="btn secondary small">⚙️ Ajustes</button>
-    </div>
     <div class="header-logo"><img src="https://i.imgur.com/mBbTWOa.png" alt="Logo" class="menu-logo"></div>
 
     <div id="card-players" class="card" role="button" tabindex="0">
@@ -168,6 +167,9 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
     </div>
     <div id="card-timer" class="card" role="button" tabindex="0">
       <div class="left"><div class="emoji">⏱️</div><div><div class="title">Temporizador</div><div id="timePreview" class="muted">Desactivado</div></div></div>
+    </div>
+    <div id="card-settings" class="card" role="button" tabindex="0">
+      <div class="left"><div class="emoji">⚙️</div><div><div class="title">Ajustes</div><div class="muted">Cómo jugar, créditos y más</div></div></div>
     </div>
 
     <div id="modal-categories" class="modal hidden">
@@ -244,7 +246,7 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 
   <!-- SETTINGS -->
   <div id="screen-settings" class="hidden">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div class="screen-header">
       <div class="title">Ajustes</div>
       <button id="backFromSettings" class="btn secondary small">Volver</button>
     </div>
@@ -267,31 +269,11 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
       <h3>¿Cómo se juega?</h3>
       <div class="carousel-viewport">
         <div class="carousel-track" id="howtoTrack">
-          <div class="carousel-slide">
-            <div class="slide-emoji">🎭</div>
-            <h4>El objetivo</h4>
-            <p>A cada jugador se le asigna una palabra secreta... excepto a los impostores, que no la conocen.</p>
-          </div>
-          <div class="carousel-slide">
-            <div class="slide-emoji">🗣️</div>
-            <h4>Cada turno</h4>
-            <p>Di una palabra relacionada con la tuya, sin decirla directamente. Sé sutil.</p>
-          </div>
-          <div class="carousel-slide">
-            <div class="slide-emoji">🕵️</div>
-            <h4>El impostor</h4>
-            <p>Debe escuchar bien y fingir que conoce la palabra para no ser descubierto.</p>
-          </div>
-          <div class="carousel-slide">
-            <div class="slide-emoji">🗳️</div>
-            <h4>La votación</h4>
-            <p>Al terminar la ronda, todos votan a quién creen que es el impostor. El más votado queda fuera.</p>
-          </div>
-          <div class="carousel-slide">
-            <div class="slide-emoji">🏆</div>
-            <h4>¿Quién gana?</h4>
-            <p>Si expulsan al impostor, ganan los demás. Si sobrevive, el impostor sigue en juego.</p>
-          </div>
+          <div class="carousel-slide"><div class="slide-emoji">🎭</div><h4>El objetivo</h4><p>A cada jugador se le asigna una palabra secreta... excepto a los impostores, que no la conocen.</p></div>
+          <div class="carousel-slide"><div class="slide-emoji">🗣️</div><h4>Cada turno</h4><p>Di una palabra relacionada con la tuya, sin decirla directamente. Sé sutil.</p></div>
+          <div class="carousel-slide"><div class="slide-emoji">🕵️</div><h4>El impostor</h4><p>Debe escuchar bien y fingir que conoce la palabra para no ser descubierto.</p></div>
+          <div class="carousel-slide"><div class="slide-emoji">🗳️</div><h4>La votación</h4><p>Al terminar la ronda, todos votan a quién creen que es el impostor. El más votado queda fuera.</p></div>
+          <div class="carousel-slide"><div class="slide-emoji">🏆</div><h4>¿Quién gana?</h4><p>Si expulsan al impostor, ganan los demás. Si sobrevive, el impostor sigue en juego.</p></div>
         </div>
       </div>
       <div class="carousel-dots" id="howtoDots"></div>
@@ -320,7 +302,7 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 
   <!-- PLAYERS SCREEN -->
   <div id="screen-players" class="hidden">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div class="screen-header">
       <div><div class="title">Jugadores</div><div class="muted">Define cuántos juegan y sus nombres</div></div>
       <button id="backFromPlayers" class="btn secondary small">Volver</button>
     </div>
@@ -344,7 +326,7 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 
   <!-- REVEAL SEQUENCE -->
   <div id="screen-reveal" class="hidden" style="text-align:center;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div class="screen-header">
       <div><div class="title">Revelar jugadores</div><div class="muted">Pasa el dispositivo al siguiente</div></div>
       <button id="backFromReveal" class="btn secondary small">Volver</button>
     </div>
@@ -367,7 +349,8 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 
   <!-- PRE-PLAY -->
   <div id="screen-preplay" class="hidden">
-    <div style="display:flex">
+    <div class="screen-header">
+      <div><div class="title">Empezando partida</div><div class="muted">Prepárense para comenzar</div></div>
       <button id="homeFromPre" class="btn secondary icon-home-btn">🏠</button>
     </div>
     <div class="preplay-wrap">
@@ -379,51 +362,54 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
     </div>
   </div>
 
-  <!-- PLAY SCREEN -->
+  <!-- PLAY SCREEN (unificado) -->
   <div id="screen-play" class="hidden">
-    <div id="playTimerMode" class="play-screen hidden">
+    <div id="playTimerInfo" class="hidden" style="text-align:center;width:100%">
       <div id="currentPlayerLabel" class="current-player-big">Turno: Jugador 1</div>
       <div id="timerBig" class="big-timer">00:30</div>
-      <div class="play-controls">
+    </div>
+
+    <div class="play-controls">
+      <div id="playTimerButtons" class="hidden" style="display:flex;flex-direction:column;gap:10px;width:100%">
         <button id="pauseBtn" class="btn secondary">Pausa</button>
         <button id="resumeBtn" class="btn hidden">Reanudar</button>
         <button id="nextTurnBtn" class="btn">Siguiente</button>
-        <button id="backToMenuBtn" class="btn secondary">Volver al menú</button>
       </div>
-    </div>
 
-    <div id="playNoTimerMode" class="play-screen hidden">
-      <div class="muted" style="font-size:16px;text-align:center">Partida en curso — discutan y descubran al impostor</div>
-      <button id="holdEndBtn" class="btn hold-btn">
-        <div class="hold-btn-fill" id="holdFill"></div>
-        <span style="position:relative;z-index:2">🔒 Mantén presionado 4s para terminar</span>
+      <button id="holdEndBtnPlay" class="btn hold-btn">
+        <div class="hold-btn-fill" id="holdFillPlay"></div>
+        <span style="position:relative;z-index:2">Acabar partida</span>
       </button>
-      <button id="backToMenuBtnNoTimer" class="btn secondary small" style="margin-top:10px">Volver al menú</button>
+
+      <button id="backToMenuPlay" class="btn secondary">Volver al menú</button>
     </div>
   </div>
 
   <!-- TIMEOUT SCREEN -->
   <div id="screen-timeout" class="hidden" style="text-align:center">
-    <div class="role-title" style="font-size:26px">⏰ ¡Se acabó el tiempo!</div>
-    <div class="muted" style="margin:16px 0 30px">Turno de: <span id="timeoutPlayerName"></span></div>
-    <button id="continueAfterTimeout" class="btn" style="width:min(80vw,320px)">Continuar partida</button>
-  </div>
-
-  <!-- ROUND PAUSE -->
-  <div id="screen-roundpause" class="hidden">
-    <div class="card role-card">
-      <div class="role-title">Pausa de ronda</div>
-      <div class="muted" style="margin-top:8px">Se completaron los turnos de todos los jugadores</div>
-      <div style="height:10px"></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <button id="startNextRound" class="btn">Empezar siguiente ronda</button>
-        <button id="endMatchFromPause" class="btn secondary">Terminar partida</button>
-        <button id="backToMenuFromPause" class="btn secondary">Volver al menú</button>
-      </div>
+    <div class="role-card" style="background:linear-gradient(180deg,#3a0d14,#1a0509)">
+      <div style="font-size:50px;margin-bottom:6px">⏰</div>
+      <div class="role-title" style="font-size:24px;color:#ff8899">¡Se acabó el tiempo!</div>
+      <div class="muted" style="margin:14px 0 26px">Turno de: <span id="timeoutPlayerName" style="color:#fff;font-weight:700"></span></div>
+      <button id="continueAfterTimeout" class="btn" style="width:100%;max-width:280px;margin:0 auto;display:block">Reanudar partida</button>
     </div>
   </div>
 
-  <!-- REVEAL IMPOSTORS (fin de partida sin temporizador) -->
+  <!-- ROUND PAUSE / HORA DE VOTAR -->
+  <div id="screen-roundpause" class="hidden" style="text-align:center">
+    <div class="vote-title">🗳️ ¡Hora de votar!</div>
+    <div class="muted vote-sub">Todos han tenido su turno en esta ronda</div>
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
+      <button id="startNextRound" class="btn" style="width:min(80vw,320px)">▶️ Siguiente ronda</button>
+      <button id="holdEndBtnRoundPause" class="btn hold-btn" style="width:min(80vw,320px)">
+        <div class="hold-btn-fill" id="holdFillRoundPause"></div>
+        <span style="position:relative;z-index:2">Acabar partida</span>
+      </button>
+      <button id="backToMenuFromPause" class="btn secondary" style="width:min(80vw,320px)">Volver al menú</button>
+    </div>
+  </div>
+
+  <!-- REVEAL IMPOSTORS -->
   <div id="screen-revealimpostors" class="hidden" style="text-align:center">
     <div class="role-title" style="font-size:26px;margin-bottom:6px">😱 ¡Se acabó la partida!</div>
     <div class="muted" style="margin-bottom:20px">Los impostores eran:</div>
@@ -437,7 +423,7 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 </div>
 
 <script>
-/* ============ CARGA DE PALABRAS (JSONP desde Apps Script) ============ */
+/* ============ CARGA DE PALABRAS (JSONP) ============ */
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzpb8_KMu9bQTCklFRkD0OV3it2lN0a8Ae21S5DnWwU6000Ykqr_Cj0NDWUs5XdmLNo/exec";
 let words = {};
 
@@ -475,28 +461,24 @@ function secureRandomInt(max){
   window.crypto.getRandomValues(arr);
   return arr[0] % max;
 }
-
 function show(id){
   document.querySelectorAll('[id^="screen-"]').forEach(el=>el.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 const q = (id)=>document.getElementById(id);
+const isDefaultName = (v)=> !v || /^Jugador\s*\d+$/i.test(v.trim());
 
-/* ============ JUGADORES GUARDADOS (localStorage) ============ */
+/* ============ JUGADORES GUARDADOS ============ */
 const STORAGE_KEY = 'infiltrado_saved_players_v1';
-function loadSavedPlayers(){
-  try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-  catch(e){ return []; }
-}
-function persistSavedPlayers(list){
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }catch(e){}
-}
+function loadSavedPlayers(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }catch(e){ return []; } }
+function persistSavedPlayers(list){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }catch(e){} }
 let savedPlayers = loadSavedPlayers();
 
 function addSavedPlayer(name){
-  const exists = savedPlayers.some(n=>n.toLowerCase()===name.toLowerCase());
-  if(!exists){ savedPlayers.push(name); persistSavedPlayers(savedPlayers); }
+  if(!savedPlayers.some(n=>n.toLowerCase()===name.toLowerCase())){
+    savedPlayers.push(name); persistSavedPlayers(savedPlayers);
+  }
 }
 function removeSavedPlayer(name){
   savedPlayers = savedPlayers.filter(n=>n!==name);
@@ -515,30 +497,40 @@ function renderSavedChips(){
     label.textContent = name;
     label.addEventListener('click', ()=> assignSavedName(name));
     const x = document.createElement('span');
-    x.className = 'chip-x';
-    x.textContent = '×';
+    x.className = 'chip-x'; x.textContent = '×';
     x.addEventListener('click', (e)=>{ e.stopPropagation(); removeSavedPlayer(name); });
     chip.appendChild(label); chip.appendChild(x);
     wrap.appendChild(chip);
   });
 }
+
+/* Coloca el nombre guardado en el primer espacio vacío (arriba); solo
+   aumenta la cantidad de jugadores si NO hay ningún espacio libre. */
 function assignSavedName(name){
-  let idx = draftNames.findIndex(v=>!v || !v.trim());
+  let idx = draftNames.findIndex(v => isDefaultName(v));
   if(idx === -1){
-    if(draftNames.length < 12){ draftNames.push(name); q('inputNumPlayers').value = draftNames.length; }
-    else { alert('Ya completaste el máximo de 12 jugadores.'); return; }
+    if(draftNames.length < 12){
+      draftNames.push(name);
+      q('inputNumPlayers').value = draftNames.length;
+    } else {
+      alert('Ya completaste el máximo de 12 jugadores.');
+      return;
+    }
   } else {
     draftNames[idx] = name;
   }
   renderNamesGrid();
 }
 
-/* ============ PANTALLA DE JUGADORES (con fix de bug al cambiar numPlayers) ============ */
+/* ============ PANTALLA DE JUGADORES ============ */
 let draftNames = [];
 
 function openPlayersScreen(){
-  draftNames = state.players.slice(0, state.numPlayers);
-  while(draftNames.length < state.numPlayers) draftNames.push('');
+  draftNames = [];
+  for(let i=0;i<state.numPlayers;i++){
+    const v = state.players[i];
+    draftNames.push(isDefaultName(v) ? '' : v);
+  }
   q('inputNumPlayers').value = state.numPlayers;
   renderSavedChips();
   renderNamesGrid();
@@ -556,11 +548,18 @@ function renderNamesGrid(){
   draftNames.forEach((val,i)=>{
     const wrapper = document.createElement('div');
     wrapper.className = 'name-input';
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = (val && val.trim()) ? val.trim()[0].toUpperCase() : (i+1);
     const inp = document.createElement('input');
     inp.type = 'text';
     inp.placeholder = "Jugador "+(i+1);
     inp.value = val || '';
-    inp.addEventListener('input', ()=>{ draftNames[i] = inp.value; });
+    inp.addEventListener('input', ()=>{
+      draftNames[i] = inp.value;
+      avatar.textContent = inp.value.trim() ? inp.value.trim()[0].toUpperCase() : (i+1);
+    });
+    wrapper.appendChild(avatar);
     wrapper.appendChild(inp);
     grid.appendChild(wrapper);
   });
@@ -571,68 +570,36 @@ q('card-players').addEventListener('click', openPlayersScreen);
 q('inputNumPlayers').addEventListener('input', ()=>{
   syncDraftFromInputs();
   const n = Math.max(3, Math.min(12, Number(q('inputNumPlayers').value) || 6));
-  if(n > draftNames.length){
-    for(let i=draftNames.length;i<n;i++) draftNames.push('');
-  } else {
-    draftNames.length = n;
-  }
+  if(n > draftNames.length){ for(let i=draftNames.length;i<n;i++) draftNames.push(''); }
+  else { draftNames.length = n; }
   renderNamesGrid();
 });
 
 q('savePlayers').addEventListener('click', ()=>{
   syncDraftFromInputs();
-  const n = draftNames.length;
-  state.numPlayers = Math.max(3, Math.min(12, n));
+  state.numPlayers = Math.max(3, Math.min(12, draftNames.length));
   state.players = draftNames.map((v,i)=> (v && v.trim()) || ("Jugador "+(i+1)));
-  state.players.forEach(name=>{
-    if(!/^Jugador\s*\d+$/i.test(name)) addSavedPlayer(name);
-  });
+  state.players.forEach(name=>{ if(!isDefaultName(name)) addSavedPlayer(name); });
   refreshMenuPreviews();
   show('screen-menu');
 });
-
 q('backFromPlayers').addEventListener('click', ()=> show('screen-menu'));
 
-/* ============ MENU / MODALES DE CONFIG ============ */
+/* ============ MENU / MODALES ============ */
 q('enterBtn').addEventListener('click', ()=> show('screen-menu'));
 
-q('card-categories').addEventListener('click', ()=> {
-  q('selectCategoryModal').value = state.category;
-  q('modal-categories').classList.remove('hidden');
-});
-q('card-impostors').addEventListener('click', ()=> {
-  q('selectImpostorsModal').value = state.impostors;
-  q('modal-impostors').classList.remove('hidden');
-});
-q('card-hints').addEventListener('click', ()=> {
-  q('selectHintModal').value = state.hintMode;
-  q('modal-hints').classList.remove('hidden');
-});
-q('card-timer').addEventListener('click', ()=> {
-  q('timerEnabledSwitch').checked = state.timerEnabled;
-  q('timerSecondsModal').value = state.timerSeconds;
-  q('modal-timer').classList.remove('hidden');
-});
+q('card-categories').addEventListener('click', ()=> { q('selectCategoryModal').value = state.category; q('modal-categories').classList.remove('hidden'); });
+q('card-impostors').addEventListener('click', ()=> { q('selectImpostorsModal').value = state.impostors; q('modal-impostors').classList.remove('hidden'); });
+q('card-hints').addEventListener('click', ()=> { q('selectHintModal').value = state.hintMode; q('modal-hints').classList.remove('hidden'); });
+q('card-timer').addEventListener('click', ()=> { q('timerEnabledSwitch').checked = state.timerEnabled; q('timerSecondsModal').value = state.timerSeconds; q('modal-timer').classList.remove('hidden'); });
+q('card-settings').addEventListener('click', ()=> show('screen-settings'));
 
 q('cancelCategoryModal').addEventListener('click', ()=> q('modal-categories').classList.add('hidden'));
-q('saveCategoryModal').addEventListener('click', ()=> {
-  state.category = q('selectCategoryModal').value;
-  q('modal-categories').classList.add('hidden');
-  refreshMenuPreviews();
-});
+q('saveCategoryModal').addEventListener('click', ()=> { state.category = q('selectCategoryModal').value; q('modal-categories').classList.add('hidden'); refreshMenuPreviews(); });
 q('cancelImpostorsModal').addEventListener('click', ()=> q('modal-impostors').classList.add('hidden'));
-q('saveImpostorsModal').addEventListener('click', ()=> {
-  let v = Number(q('selectImpostorsModal').value) || 1;
-  state.impostors = Math.max(1, Math.min(3, v));
-  q('modal-impostors').classList.add('hidden');
-  refreshMenuPreviews();
-});
+q('saveImpostorsModal').addEventListener('click', ()=> { let v=Number(q('selectImpostorsModal').value)||1; state.impostors=Math.max(1,Math.min(3,v)); q('modal-impostors').classList.add('hidden'); refreshMenuPreviews(); });
 q('cancelHintsModal').addEventListener('click', ()=> q('modal-hints').classList.add('hidden'));
-q('saveHintsModal').addEventListener('click', ()=> {
-  state.hintMode = q('selectHintModal').value;
-  q('modal-hints').classList.add('hidden');
-  refreshMenuPreviews();
-});
+q('saveHintsModal').addEventListener('click', ()=> { state.hintMode = q('selectHintModal').value; q('modal-hints').classList.add('hidden'); refreshMenuPreviews(); });
 q('cancelTimerModal').addEventListener('click', ()=> q('modal-timer').classList.add('hidden'));
 q('saveTimerModal').addEventListener('click', ()=> {
   state.timerEnabled = q('timerEnabledSwitch').checked;
@@ -661,10 +628,8 @@ function refreshMenuPreviews(){
 }
 refreshMenuPreviews();
 
-/* ============ AJUSTES / COMO JUGAR / CREDITOS ============ */
-q('btnSettings').addEventListener('click', ()=> show('screen-settings'));
+/* ============ AJUSTES ============ */
 q('backFromSettings').addEventListener('click', ()=> show('screen-menu'));
-
 q('btnResetAll').addEventListener('click', ()=>{
   if(!confirm('¿Seguro que quieres reiniciar todos los ajustes?')) return;
   state = {
@@ -692,63 +657,49 @@ function updateHowto(){
   q('howtoTrack').style.transform = `translateX(-${howtoIndex*100}%)`;
   Array.from(q('howtoDots').children).forEach((d,i)=> d.classList.toggle('active', i===howtoIndex));
 }
-q('btnHowto').addEventListener('click', ()=>{
-  howtoIndex = 0; buildHowtoDots(); updateHowto();
-  q('modal-howto').classList.remove('hidden');
-});
+q('btnHowto').addEventListener('click', ()=>{ howtoIndex=0; buildHowtoDots(); updateHowto(); q('modal-howto').classList.remove('hidden'); });
 q('howtoClose').addEventListener('click', ()=> q('modal-howto').classList.add('hidden'));
 q('howtoPrev').addEventListener('click', ()=>{ howtoIndex=(howtoIndex-1+HOWTO_SLIDES)%HOWTO_SLIDES; updateHowto(); });
 q('howtoNext').addEventListener('click', ()=>{ howtoIndex=(howtoIndex+1)%HOWTO_SLIDES; updateHowto(); });
-
 q('btnCredits').addEventListener('click', ()=> q('modal-credits').classList.remove('hidden'));
 q('creditsClose').addEventListener('click', ()=> q('modal-credits').classList.add('hidden'));
 
-/* ============ PISTAS: emoji "inteligente" con diccionario + respaldo ============ */
+/* ============ PISTAS EMOJI ============ */
 const EMOJI_HINTS = {
   "celular":"📱💬","reloj":"⏰🕰️","silla":"🪑","mochila":"🎒","bicicleta":"🚲",
-  "espejo":"🪞","laptop":"💻","llave":"🔑","vaso":"🥛","bolígrafo":"🖊️",
-  "boligrafo":"🖊️","sombrero":"🎩","lampara":"💡","auriculares":"🎧",
-  "cuaderno":"📓","guitarra":"🎸",
-  "perro":"🐶🐾","gato":"🐱","elefante":"🐘","jirafa":"🦒","panda":"🐼",
-  "delfin":"🐬","oso":"🐻","pingüino":"🐧","pinguino":"🐧","tigre":"🐯",
-  "zorro":"🦊","caballo":"🐴","mono":"🐵","leon":"🦁","aguila":"🦅","cocodrilo":"🐊",
-  "pizza":"🍕","sushi":"🍣","paella":"🥘","arepa":"🫓","ceviche":"🐟🍋",
-  "taco":"🌮","lasagna":"🍝","empanada":"🥟","hamburguesa":"🍔","ramen":"🍜",
-  "pique macho":"🍟🥩","charque":"🥩☀️","silpancho":"🍳🥩","sajta":"🍗🌶️",
+  "espejo":"🪞","laptop":"💻","llave":"🔑","vaso":"🥛","bolígrafo":"🖊️","boligrafo":"🖊️",
+  "sombrero":"🎩","lampara":"💡","auriculares":"🎧","cuaderno":"📓","guitarra":"🎸",
+  "perro":"🐶🐾","gato":"🐱","elefante":"🐘","jirafa":"🦒","panda":"🐼","delfin":"🐬",
+  "oso":"🐻","pingüino":"🐧","pinguino":"🐧","tigre":"🐯","zorro":"🦊","caballo":"🐴",
+  "mono":"🐵","leon":"🦁","aguila":"🦅","cocodrilo":"🐊",
+  "pizza":"🍕","sushi":"🍣","paella":"🥘","arepa":"🫓","ceviche":"🐟🍋","taco":"🌮",
+  "lasagna":"🍝","empanada":"🥟","hamburguesa":"🍔","ramen":"🍜","pique macho":"🍟🥩",
+  "charque":"🥩☀️","silpancho":"🍳🥩","sajta":"🍗🌶️",
   "bolivia":"🇧🇴","argentina":"🇦🇷","brasil":"🇧🇷","españa":"🇪🇸","espana":"🇪🇸",
   "mexico":"🇲🇽","canada":"🇨🇦","italia":"🇮🇹","japon":"🇯🇵","francia":"🇫🇷",
   "alemania":"🇩🇪","chile":"🇨🇱","peru":"🇵🇪","colombia":"🇨🇴","uruguay":"🇺🇾",
   "leonardo dicaprio":"🚢🎬","scarlett johansson":"🕷️🎬","dwayne johnson":"💪🎬",
   "tom hanks":"🏐🎬","meryl streep":"🎭","brad pitt":"🥊🎬","julia roberts":"😊🎬",
   "robert deniro":"🎬🕶️","morgan freeman":"🎙️🎬","jennifer lawrence":"🏹🎬",
-  "shakira":"🐺🎤","bad bunny":"🐰🎤","madonna":"👑🎤","adele":"🎤💔",
-  "rihanna":"☂️🎤","drake":"🦉🎤","beyonce":"🐝🎤","ed sheeran":"🎸🧡",
-  "taylor swift":"🎤💛","bruno mars":"🚀🎤","the weeknd":"🌙🎤","ariana grande":"🎀🎤"
+  "shakira":"🐺🎤","bad bunny":"🐰🎤","madonna":"👑🎤","adele":"🎤💔","rihanna":"☂️🎤",
+  "drake":"🦉🎤","beyonce":"🐝🎤","ed sheeran":"🎸🧡","taylor swift":"🎤💛",
+  "bruno mars":"🚀🎤","the weeknd":"🌙🎤","ariana grande":"🎀🎤"
 };
-const CATEGORY_FALLBACK_EMOJI = {
-  objetos:"🔧📦", animales:"🐾🦁", platos:"🍽️😋", paises:"🌍🏳️",
-  actores:"🎬⭐", cantantes:"🎤🎵"
-};
+const CATEGORY_FALLBACK_EMOJI = { objetos:"🔧📦", animales:"🐾🦁", platos:"🍽️😋", paises:"🌍🏳️", actores:"🎬⭐", cantantes:"🎤🎵" };
 function getSmartEmojiHint(word){
   const lower = word.toLowerCase();
   if(EMOJI_HINTS[lower]) return EMOJI_HINTS[lower];
-  for(const cat in words){
-    if(words[cat] && words[cat].includes(lower)){
-      return CATEGORY_FALLBACK_EMOJI[cat] || '💡❓';
-    }
-  }
+  for(const cat in words){ if(words[cat] && words[cat].includes(lower)) return CATEGORY_FALLBACK_EMOJI[cat] || '💡❓'; }
   return '💡❓';
 }
-
 function makeHintForImpostor(word, mode){
   if(mode === 'none') return '';
   const lower = word.toLowerCase();
   if(mode === 'first_letter'){
     const first = (lower.replace(/\s+$/,'')[0] || '?').toUpperCase();
     return `Empieza con "${first}" y tiene ${lower.length} letras.`;
-  } else if(mode === 'emoji'){
-    return getSmartEmojiHint(lower);
-  } else if(mode === 'related'){
+  } else if(mode === 'emoji'){ return getSmartEmojiHint(lower); }
+  else if(mode === 'related'){
     const idx = Math.max(1, Math.floor(lower.length/2)-1);
     return `Tiene "${lower[idx].toUpperCase()}" en el medio y ${lower.length} letras.`;
   }
@@ -756,9 +707,8 @@ function makeHintForImpostor(word, mode){
 }
 function capitalizeWords(s){ return s.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' '); }
 
-/* ============ FLUJO DE JUEGO: REVEAL POR JUGADOR ============ */
+/* ============ REVEAL POR JUGADOR ============ */
 const FLIP_DURATION = 350;
-
 q('backFromReveal').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
 
 function renderReveal(){
@@ -845,11 +795,8 @@ function startNewGame(){
 
   state.assignment = [];
   for(let i=0;i<state.numPlayers;i++){
-    if(impostorIndexes.includes(i)){
-      state.assignment.push({ role:'impostor', word:null, hint: makeHintForImpostor(target, state.hintMode) });
-    } else {
-      state.assignment.push({ role:'normal', word: capitalizeWords(target), hint: null });
-    }
+    if(impostorIndexes.includes(i)) state.assignment.push({ role:'impostor', word:null, hint: makeHintForImpostor(target, state.hintMode) });
+    else state.assignment.push({ role:'normal', word: capitalizeWords(target), hint: null });
   }
 
   state.currentRevealIndex = 0;
@@ -864,7 +811,6 @@ q('playAgainBtn').addEventListener('click', startNewGame);
 
 /* ============ PRE-PLAY ============ */
 q('homeFromPre').addEventListener('click', ()=> show('screen-menu'));
-
 q('beginMatch').addEventListener('click', ()=>{
   state.timerRemaining = state.timerSeconds;
   state.roundCount = 1;
@@ -873,20 +819,20 @@ q('beginMatch').addEventListener('click', ()=>{
   if(state.timerEnabled) startTimer();
 });
 
-/* ============ PANTALLA DE JUEGO ============ */
+/* ============ PANTALLA DE JUEGO (unificada) ============ */
 function renderPlayScreen(){
   const idx = state.currentTurnIndex;
   const name = state.players[idx] || ("Jugador "+(idx+1));
   if(state.timerEnabled){
-    q('playTimerMode').classList.remove('hidden');
-    q('playNoTimerMode').classList.add('hidden');
+    q('playTimerInfo').classList.remove('hidden');
+    q('playTimerButtons').classList.remove('hidden');
     q('currentPlayerLabel').textContent = "Turno: " + name;
     updateTimerDisplay();
     q('resumeBtn').classList.add('hidden');
     q('pauseBtn').classList.remove('hidden');
   } else {
-    q('playTimerMode').classList.add('hidden');
-    q('playNoTimerMode').classList.remove('hidden');
+    q('playTimerInfo').classList.add('hidden');
+    q('playTimerButtons').classList.add('hidden');
   }
 }
 
@@ -904,7 +850,7 @@ function beep(){
       t += 0.25;
     }
     setTimeout(()=>ctx.close(), 1200);
-  }catch(e){ /* silencioso si el navegador bloquea audio sin interacción previa */ }
+  }catch(e){}
 }
 
 function startTimer(){
@@ -923,10 +869,7 @@ function startTimer(){
     }
   }, 1000);
 }
-function stopTimer(){
-  if(state.timerInterval) clearInterval(state.timerInterval);
-  state.timerInterval = null;
-}
+function stopTimer(){ if(state.timerInterval) clearInterval(state.timerInterval); state.timerInterval = null; }
 function updateTimerDisplay(){
   const s = Math.max(0, state.timerRemaining);
   const mm = Math.floor(s/60).toString().padStart(2,'0');
@@ -934,18 +877,8 @@ function updateTimerDisplay(){
   q('timerBig').textContent = `${mm}:${ss}`;
 }
 
-q('pauseBtn').addEventListener('click', ()=>{
-  stopTimer();
-  q('pauseBtn').classList.add('hidden');
-  q('resumeBtn').classList.remove('hidden');
-});
-q('resumeBtn').addEventListener('click', ()=>{
-  if(state.timerEnabled){
-    startTimer();
-    q('resumeBtn').classList.add('hidden');
-    q('pauseBtn').classList.remove('hidden');
-  }
-});
+q('pauseBtn').addEventListener('click', ()=>{ stopTimer(); q('pauseBtn').classList.add('hidden'); q('resumeBtn').classList.remove('hidden'); });
+q('resumeBtn').addEventListener('click', ()=>{ if(state.timerEnabled){ startTimer(); q('resumeBtn').classList.add('hidden'); q('pauseBtn').classList.remove('hidden'); } });
 
 function advanceTurn(){
   state.currentTurnIndex = (state.currentTurnIndex + 1) % state.numPlayers;
@@ -959,9 +892,8 @@ function advanceTurn(){
 }
 q('nextTurnBtn').addEventListener('click', ()=>{ stopTimer(); advanceTurn(); });
 q('continueAfterTimeout').addEventListener('click', ()=> advanceTurn());
+q('backToMenuPlay').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
 
-q('backToMenuBtn').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
-q('backToMenuBtnNoTimer').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
 q('startNextRound').addEventListener('click', ()=>{
   state.roundCount++;
   state.currentTurnIndex = 0;
@@ -969,40 +901,44 @@ q('startNextRound').addEventListener('click', ()=>{
   show('screen-play');
   if(state.timerEnabled) startTimer();
 });
-q('endMatchFromPause').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
 q('backToMenuFromPause').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
 
-/* ============ FIN DE PARTIDA SIN TEMPORIZADOR: mantener presionado ============ */
-let holdTimeout = null;
-const holdBtn = q('holdEndBtn'), holdFill = q('holdFill');
-
-function startHold(){
-  holdFill.style.transition = 'width 4s linear';
-  requestAnimationFrame(()=>{ holdFill.style.width = '100%'; });
-  holdTimeout = setTimeout(triggerRevealImpostors, 4000);
+/* ============ ACABAR PARTIDA (mantener 3s) ============ */
+function setupHoldButton(btnId, fillId, ms, onComplete){
+  const btn = q(btnId), fill = q(fillId);
+  let t = null;
+  function start(){
+    fill.style.transition = `width ${ms}ms linear`;
+    requestAnimationFrame(()=>{ fill.style.width = '100%'; });
+    t = setTimeout(onComplete, ms);
+  }
+  function cancel(){
+    clearTimeout(t);
+    fill.style.transition = 'width .2s ease';
+    fill.style.width = '0%';
+  }
+  btn.addEventListener('pointerdown', start);
+  ['pointerup','pointerleave','pointercancel'].forEach(evt => btn.addEventListener(evt, cancel));
 }
-function cancelHold(){
-  clearTimeout(holdTimeout);
-  holdFill.style.transition = 'width .2s ease';
-  holdFill.style.width = '0%';
-}
-holdBtn.addEventListener('pointerdown', startHold);
-['pointerup','pointerleave','pointercancel'].forEach(evt => holdBtn.addEventListener(evt, cancelHold));
 
 function triggerRevealImpostors(){
-  cancelHold();
+  stopTimer();
   const list = q('impostorsList');
   list.innerHTML = '';
   state.assignment.forEach((a,i)=>{
     if(a.role === 'impostor'){
       const div = document.createElement('div');
-      div.className = 'impostor-name-item';
+      div.className = 'impostor-card-item';
       div.textContent = '🕵️ ' + (state.players[i] || ("Jugador "+(i+1)));
       list.appendChild(div);
     }
   });
   show('screen-revealimpostors');
 }
+
+setupHoldButton('holdEndBtnPlay', 'holdFillPlay', 3000, triggerRevealImpostors);
+setupHoldButton('holdEndBtnRoundPause', 'holdFillRoundPause', 3000, triggerRevealImpostors);
+
 q('revealBackToMenu').addEventListener('click', ()=> show('screen-menu'));
 </script>
 </body>
