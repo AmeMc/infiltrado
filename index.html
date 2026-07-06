@@ -27,6 +27,8 @@ html,body{height:100%;width:100%;margin:0;padding:0;font-family:"Inter",system-u
 .screen-header .title{font-size:15px}
 .screen-header .muted{font-size:13px}
 
+.screen-flex-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:65vh;gap:24px;text-align:center}
+
 .menu{display:flex;flex-direction:column;gap:14px}
 .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(1,6,12,.6);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .card .left{display:flex;align-items:center;gap:12px}
@@ -50,11 +52,14 @@ input[type=number],select,input[type=text]{background:rgba(255,255,255,.03);bord
 .role-word{font-size:20px;margin-top:8px;font-weight:400;color:var(--white)}
 .role-hint{font-size:32px;margin-top:12px;color:var(--accent);font-weight:800;line-height:1.25;text-align:center;word-break:break-word}
 
-.play-screen{display:flex;flex-direction:column;gap:20px;align-items:center;width:100%}
 .current-player-big{font-size:26px;font-weight:800;color:var(--white);text-align:center}
 .big-timer{font-size:64px;font-weight:800;color:var(--accent);text-shadow:0 8px 30px rgba(0,0,0,.6)}
 .play-controls{display:flex;gap:10px;flex-direction:column;width:100%;max-width:320px}
 .play-controls .btn{width:100%}
+
+.notimer-hero{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:6px}
+.notimer-hero img{width:90px;opacity:.9}
+.notimer-question{font-size:19px;font-weight:700;color:var(--white)}
 
 .bottom-bar{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:20px;flex-wrap:wrap}
 .card[role="button"]{cursor:pointer}
@@ -88,22 +93,34 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 .chips-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);padding:8px 8px 8px 14px;border-radius:999px;font-size:14px;cursor:pointer}
+.chip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:8px 10px 8px 8px;border-radius:14px;font-size:14px;cursor:pointer}
 .chip:active{background:rgba(255,255,255,.1)}
-.chip .chip-x{width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.08);font-size:14px;line-height:1}
+.chip .avatar{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#052425;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0}
+.chip .chip-x{width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.08);font-size:14px;line-height:1;margin-left:2px}
 .chip .chip-x:active{background:rgba(255,80,80,.4)}
 
 .icon-home-btn{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;padding:0;flex-shrink:0}
-.preplay-wrap{display:flex;flex-direction:column;align-items:center;margin-top:10px}
+.preplay-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:58vh;gap:10px}
 .preplay-card{background:linear-gradient(180deg,#0f2538,#071021);border-radius:20px;padding:40px 24px;width:min(80vw,320px);min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 15px 40px rgba(0,0,0,.6);gap:16px}
 .preplay-label{font-size:16px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px}
 .preplay-name{font-size:32px;font-weight:800;color:var(--accent);text-align:center;word-break:break-word}
 .preplay-start-btn{width:min(80vw,320px);margin-top:20px;padding:16px;font-size:17px}
 
-.hold-btn{position:relative;overflow:hidden;padding:18px;font-size:15px;background:#ff5566;color:#fff;box-shadow:0 6px 20px rgba(255,85,102,.25)}
-.hold-btn-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:rgba(0,0,0,.3)}
+.hold-btn{position:relative;overflow:hidden;padding:18px;font-size:15px;background:#ff5566;color:#fff;box-shadow:0 6px 20px rgba(255,85,102,.25);user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-moz-user-select:none;-ms-user-select:none}
+.hold-btn *{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.hold-btn-fill{position:absolute;left:0;top:0;bottom:0;width:0%;background:rgba(0,0,0,.3);pointer-events:none}
 
-.impostor-card-item{font-size:20px;font-weight:800;color:#ff8899;background:rgba(255,85,102,.1);border:1px solid rgba(255,85,102,.25);padding:14px 22px;border-radius:14px;animation:fadeIn .5s ease;width:min(80vw,300px);text-align:center}
+.impostor-card-item{font-size:26px;font-weight:800;color:#ff8899;background:rgba(255,85,102,.1);border:1px solid rgba(255,85,102,.25);padding:16px 24px;border-radius:16px;width:min(82vw,320px);text-align:center;opacity:0;animation:zoomIn .6s ease forwards}
+
+.timeout-container{background:linear-gradient(180deg,#3a0d14,#140508);min-height:78vh;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px}
+
+.vote-card-list{display:flex;flex-direction:column;gap:10px;margin-top:16px;width:100%;max-width:360px;margin-left:auto;margin-right:auto}
+.vote-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);padding:12px 16px;border-radius:14px;cursor:pointer;transition:.2s}
+.vote-card.selected{border-color:#ff5566;background:rgba(255,85,102,.12)}
+.vote-card .avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#052425;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.vote-card span.name{font-weight:600}
+
+.win-title{font-size:28px;font-weight:800;color:var(--accent);margin-bottom:6px}
 
 .carousel-viewport{overflow:hidden;border-radius:12px}
 .carousel-track{display:flex;transition:transform .4s ease}
@@ -114,9 +131,6 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
 .carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
 .carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer}
 .carousel-dot.active{background:var(--accent)}
-
-.vote-title{font-size:28px;font-weight:800;text-align:center;margin-bottom:6px}
-.vote-sub{text-align:center;margin-bottom:26px}
 
 @media(max-width:400px){
   .flip-card{width:95vw;max-width:280px;height:380px}
@@ -272,8 +286,8 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
           <div class="carousel-slide"><div class="slide-emoji">🎭</div><h4>El objetivo</h4><p>A cada jugador se le asigna una palabra secreta... excepto a los impostores, que no la conocen.</p></div>
           <div class="carousel-slide"><div class="slide-emoji">🗣️</div><h4>Cada turno</h4><p>Di una palabra relacionada con la tuya, sin decirla directamente. Sé sutil.</p></div>
           <div class="carousel-slide"><div class="slide-emoji">🕵️</div><h4>El impostor</h4><p>Debe escuchar bien y fingir que conoce la palabra para no ser descubierto.</p></div>
-          <div class="carousel-slide"><div class="slide-emoji">🗳️</div><h4>La votación</h4><p>Al terminar la ronda, todos votan a quién creen que es el impostor. El más votado queda fuera.</p></div>
-          <div class="carousel-slide"><div class="slide-emoji">🏆</div><h4>¿Quién gana?</h4><p>Si expulsan al impostor, ganan los demás. Si sobrevive, el impostor sigue en juego.</p></div>
+          <div class="carousel-slide"><div class="slide-emoji">🗳️</div><h4>La votación</h4><p>Al terminar la ronda, seleccionen en el dispositivo a quién creen que es el impostor.</p></div>
+          <div class="carousel-slide"><div class="slide-emoji">🏆</div><h4>¿Quién gana?</h4><p>Si expulsan a todos los impostores, ganan los tripulantes. Si sobreviven, el juego continúa.</p></div>
         </div>
       </div>
       <div class="carousel-dots" id="howtoDots"></div>
@@ -362,61 +376,83 @@ input[type="checkbox"]:checked + .switch::after{transform:translateX(22px)}
     </div>
   </div>
 
-  <!-- PLAY SCREEN (unificado) -->
+  <!-- PLAY SCREEN -->
   <div id="screen-play" class="hidden">
-    <div id="playTimerInfo" class="hidden" style="text-align:center;width:100%">
-      <div id="currentPlayerLabel" class="current-player-big">Turno: Jugador 1</div>
-      <div id="timerBig" class="big-timer">00:30</div>
-    </div>
-
-    <div class="play-controls">
-      <div id="playTimerButtons" class="hidden" style="display:flex;flex-direction:column;gap:10px;width:100%">
-        <button id="pauseBtn" class="btn secondary">Pausa</button>
-        <button id="resumeBtn" class="btn hidden">Reanudar</button>
-        <button id="nextTurnBtn" class="btn">Siguiente</button>
+    <div class="screen-flex-center" style="min-height:72vh">
+      <div id="playNoTimerHero" class="notimer-hero hidden">
+        <img src="https://i.imgur.com/mBbTWOa.png" alt="Infiltrado">
+        <div class="notimer-question">🔍 ¿Quién será el infiltrado?</div>
       </div>
-
-      <button id="holdEndBtnPlay" class="btn hold-btn">
-        <div class="hold-btn-fill" id="holdFillPlay"></div>
-        <span style="position:relative;z-index:2">Acabar partida</span>
-      </button>
-
-      <button id="backToMenuPlay" class="btn secondary">Volver al menú</button>
+      <div id="playTimerInfo" class="hidden" style="text-align:center;width:100%">
+        <div id="currentPlayerLabel" class="current-player-big">Turno: Jugador 1</div>
+        <div id="timerBig" class="big-timer">00:30</div>
+      </div>
+      <div class="play-controls">
+        <div id="playTimerButtons" class="hidden" style="display:flex;flex-direction:column;gap:10px;width:100%">
+          <button id="pauseBtn" class="btn secondary">Pausa</button>
+          <button id="resumeBtn" class="btn hidden">Reanudar</button>
+          <button id="nextTurnBtn" class="btn">Siguiente</button>
+        </div>
+        <button id="holdEndBtnPlay" class="btn hold-btn">
+          <div class="hold-btn-fill" id="holdFillPlay"></div>
+          <span style="position:relative;z-index:2">Acabar partida</span>
+        </button>
+        <button id="backToMenuPlay" class="btn secondary">Volver al menú</button>
+      </div>
     </div>
   </div>
 
   <!-- TIMEOUT SCREEN -->
-  <div id="screen-timeout" class="hidden" style="text-align:center">
-    <div class="role-card" style="background:linear-gradient(180deg,#3a0d14,#1a0509)">
-      <div style="font-size:50px;margin-bottom:6px">⏰</div>
-      <div class="role-title" style="font-size:24px;color:#ff8899">¡Se acabó el tiempo!</div>
-      <div class="muted" style="margin:14px 0 26px">Turno de: <span id="timeoutPlayerName" style="color:#fff;font-weight:700"></span></div>
-      <button id="continueAfterTimeout" class="btn" style="width:100%;max-width:280px;margin:0 auto;display:block">Reanudar partida</button>
+  <div id="screen-timeout" class="hidden">
+    <div class="timeout-container">
+      <div style="font-size:64px">⏰</div>
+      <div class="role-title" style="font-size:28px;color:#ff8899">¡Se acabó el tiempo!</div>
+      <div class="muted" style="font-size:15px">Turno de: <span id="timeoutPlayerName" style="color:#fff;font-weight:700"></span></div>
+      <button id="continueAfterTimeout" class="btn" style="width:min(85vw,320px);padding:18px;font-size:17px">Reanudar partida</button>
     </div>
   </div>
 
-  <!-- ROUND PAUSE / HORA DE VOTAR -->
-  <div id="screen-roundpause" class="hidden" style="text-align:center">
-    <div class="vote-title">🗳️ ¡Hora de votar!</div>
-    <div class="muted vote-sub">Todos han tenido su turno en esta ronda</div>
-    <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
-      <button id="startNextRound" class="btn" style="width:min(80vw,320px)">▶️ Siguiente ronda</button>
-      <button id="holdEndBtnRoundPause" class="btn hold-btn" style="width:min(80vw,320px)">
-        <div class="hold-btn-fill" id="holdFillRoundPause"></div>
-        <span style="position:relative;z-index:2">Acabar partida</span>
-      </button>
-      <button id="backToMenuFromPause" class="btn secondary" style="width:min(80vw,320px)">Volver al menú</button>
+  <!-- VOTACIÓN -->
+  <div id="screen-voting" class="hidden">
+    <div class="screen-header">
+      <div><div class="title" style="font-size:18px">🗳️ Hora de votar</div><div class="muted">¿A quién expulsan de la nave?</div></div>
+    </div>
+    <div id="votingList" class="vote-card-list"></div>
+    <div style="display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:24px">
+      <button id="confirmVoteBtn" class="btn" style="width:min(85vw,320px)" disabled>Confirmar expulsión</button>
+      <button id="skipVoteBtn" class="btn secondary small">Nadie fue expulsado (empate)</button>
+      <button id="cancelMatchFromVote" class="btn secondary small">Terminar partida</button>
     </div>
   </div>
 
-  <!-- REVEAL IMPOSTORS -->
-  <div id="screen-revealimpostors" class="hidden" style="text-align:center">
-    <div class="role-title" style="font-size:26px;margin-bottom:6px">😱 ¡Se acabó la partida!</div>
-    <div class="muted" style="margin-bottom:20px">Los impostores eran:</div>
-    <div id="impostorsList" style="display:flex;flex-direction:column;gap:10px;align-items:center;margin-bottom:30px"></div>
-    <div style="display:flex;flex-direction:column;gap:12px;align-items:center">
-      <button id="playAgainBtn" class="btn" style="width:min(80vw,320px)">🔁 Jugar de nuevo</button>
-      <button id="revealBackToMenu" class="btn secondary" style="width:min(80vw,320px)">Volver al menú</button>
+  <!-- FIN DE PARTIDA (abandono manual) -->
+  <div id="screen-revealimpostors" class="hidden">
+    <div class="screen-flex-center" style="min-height:75vh;justify-content:space-between">
+      <div style="width:100%">
+        <div class="role-title" style="font-size:24px;margin-top:10px">Partida terminada</div>
+        <div class="muted" style="margin:10px 0 26px">Los infiltrados eran:</div>
+        <div id="impostorsList" style="display:flex;flex-direction:column;gap:14px;align-items:center"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:center;width:100%">
+        <button id="playAgainBtn" class="btn" style="width:min(80vw,320px)">Jugar de nuevo</button>
+        <button id="revealBackToMenu" class="btn secondary" style="width:min(80vw,320px)">Volver al menú</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VICTORIA (tripulantes ganan) -->
+  <div id="screen-win" class="hidden">
+    <div class="screen-flex-center" style="min-height:75vh;justify-content:space-between">
+      <div style="width:100%">
+        <div class="win-title">🎉 ¡Los tripulantes ganaron!</div>
+        <div class="muted" style="margin-bottom:26px">Expulsaron a todos los infiltrados</div>
+        <div class="muted" style="margin-bottom:10px">Los infiltrados eran:</div>
+        <div id="winImpostorsList" style="display:flex;flex-direction:column;gap:14px;align-items:center"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:center;width:100%">
+        <button id="winPlayAgainBtn" class="btn" style="width:min(80vw,320px)">Jugar de nuevo</button>
+        <button id="winBackToMenu" class="btn secondary" style="width:min(80vw,320px)">Volver al menú</button>
+      </div>
     </div>
   </div>
 
@@ -452,7 +488,8 @@ let state = {
   numPlayers: 6, category:"mixed", impostors:1, hintMode:"first_letter",
   timerEnabled:false, timerSeconds:30, assignment:[],
   currentRevealIndex:0, currentTurnIndex:0, roundCount:0,
-  timerRemaining:0, timerInterval:null
+  timerRemaining:0, timerInterval:null,
+  aliveIndices:[], anchorIndex:0, turnsTakenThisRound:0
 };
 
 function secureRandomInt(max){
@@ -493,19 +530,21 @@ function renderSavedChips(){
   savedPlayers.forEach(name=>{
     const chip = document.createElement('div');
     chip.className = 'chip';
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = name.trim()[0].toUpperCase();
     const label = document.createElement('span');
     label.textContent = name;
     label.addEventListener('click', ()=> assignSavedName(name));
+    avatar.addEventListener('click', ()=> assignSavedName(name));
     const x = document.createElement('span');
     x.className = 'chip-x'; x.textContent = '×';
     x.addEventListener('click', (e)=>{ e.stopPropagation(); removeSavedPlayer(name); });
-    chip.appendChild(label); chip.appendChild(x);
+    chip.appendChild(avatar); chip.appendChild(label); chip.appendChild(x);
     wrap.appendChild(chip);
   });
 }
 
-/* Coloca el nombre guardado en el primer espacio vacío (arriba); solo
-   aumenta la cantidad de jugadores si NO hay ningún espacio libre. */
 function assignSavedName(name){
   let idx = draftNames.findIndex(v => isDefaultName(v));
   if(idx === -1){
@@ -567,9 +606,20 @@ function renderNamesGrid(){
 
 q('card-players').addEventListener('click', openPlayersScreen);
 
+/* Escribir: no forzamos el mínimo de 3 (evita truncar/perder campos a mitad de tecleo).
+   Al salir del campo sí normalizamos entre 3 y 12. */
 q('inputNumPlayers').addEventListener('input', ()=>{
   syncDraftFromInputs();
+  let raw = Number(q('inputNumPlayers').value);
+  if(isNaN(raw)) raw = draftNames.length;
+  const n = Math.max(1, Math.min(12, raw));
+  if(n > draftNames.length){ for(let i=draftNames.length;i<n;i++) draftNames.push(''); }
+  else { draftNames.length = n; }
+  renderNamesGrid();
+});
+q('inputNumPlayers').addEventListener('blur', ()=>{
   const n = Math.max(3, Math.min(12, Number(q('inputNumPlayers').value) || 6));
+  q('inputNumPlayers').value = n;
   if(n > draftNames.length){ for(let i=draftNames.length;i<n;i++) draftNames.push(''); }
   else { draftNames.length = n; }
   renderNamesGrid();
@@ -577,7 +627,9 @@ q('inputNumPlayers').addEventListener('input', ()=>{
 
 q('savePlayers').addEventListener('click', ()=>{
   syncDraftFromInputs();
-  state.numPlayers = Math.max(3, Math.min(12, draftNames.length));
+  const n = Math.max(3, Math.min(12, draftNames.length));
+  draftNames.length = n;
+  state.numPlayers = n;
   state.players = draftNames.map((v,i)=> (v && v.trim()) || ("Jugador "+(i+1)));
   state.players.forEach(name=>{ if(!isDefaultName(name)) addSavedPlayer(name); });
   refreshMenuPreviews();
@@ -636,7 +688,8 @@ q('btnResetAll').addEventListener('click', ()=>{
     players: Array.from({length:6},(_,i)=>"Jugador "+(i+1)),
     numPlayers:6, category:"mixed", impostors:1, hintMode:"first_letter",
     timerEnabled:false, timerSeconds:30, assignment:[], currentRevealIndex:0,
-    currentTurnIndex:0, roundCount:0, timerRemaining:0, timerInterval:null
+    currentTurnIndex:0, roundCount:0, timerRemaining:0, timerInterval:null,
+    aliveIndices:[], anchorIndex:0, turnsTakenThisRound:0
   };
   refreshMenuPreviews();
   show('screen-menu');
@@ -724,6 +777,9 @@ function renderReveal(){
     }
     const starter = starterPool[secureRandomInt(starterPool.length)];
     state.currentTurnIndex = starter;
+    state.anchorIndex = starter;
+    state.aliveIndices = Array.from({length:state.numPlayers},(_,i)=>i);
+    state.turnsTakenThisRound = 0;
     q('preplayName').textContent = state.players[starter] || ("Jugador "+(starter+1));
     show('screen-preplay');
     return;
@@ -800,7 +856,6 @@ function startNewGame(){
   }
 
   state.currentRevealIndex = 0;
-  state.currentTurnIndex = 0;
   state.roundCount = 1;
 
   show('screen-reveal');
@@ -808,24 +863,25 @@ function startNewGame(){
 }
 q('btnStart').addEventListener('click', startNewGame);
 q('playAgainBtn').addEventListener('click', startNewGame);
+q('winPlayAgainBtn').addEventListener('click', startNewGame);
 
 /* ============ PRE-PLAY ============ */
 q('homeFromPre').addEventListener('click', ()=> show('screen-menu'));
 q('beginMatch').addEventListener('click', ()=>{
   state.timerRemaining = state.timerSeconds;
-  state.roundCount = 1;
   renderPlayScreen();
   show('screen-play');
   if(state.timerEnabled) startTimer();
 });
 
-/* ============ PANTALLA DE JUEGO (unificada) ============ */
+/* ============ PANTALLA DE JUEGO ============ */
 function renderPlayScreen(){
   const idx = state.currentTurnIndex;
   const name = state.players[idx] || ("Jugador "+(idx+1));
   if(state.timerEnabled){
     q('playTimerInfo').classList.remove('hidden');
     q('playTimerButtons').classList.remove('hidden');
+    q('playNoTimerHero').classList.add('hidden');
     q('currentPlayerLabel').textContent = "Turno: " + name;
     updateTimerDisplay();
     q('resumeBtn').classList.add('hidden');
@@ -833,6 +889,7 @@ function renderPlayScreen(){
   } else {
     q('playTimerInfo').classList.add('hidden');
     q('playTimerButtons').classList.add('hidden');
+    q('playNoTimerHero').classList.remove('hidden');
   }
 }
 
@@ -880,11 +937,15 @@ function updateTimerDisplay(){
 q('pauseBtn').addEventListener('click', ()=>{ stopTimer(); q('pauseBtn').classList.add('hidden'); q('resumeBtn').classList.remove('hidden'); });
 q('resumeBtn').addEventListener('click', ()=>{ if(state.timerEnabled){ startTimer(); q('resumeBtn').classList.add('hidden'); q('pauseBtn').classList.remove('hidden'); } });
 
+/* ============ TURNOS: garantiza que todos los vivos jueguen antes de votar ============ */
 function advanceTurn(){
-  state.currentTurnIndex = (state.currentTurnIndex + 1) % state.numPlayers;
-  if(state.currentTurnIndex === 0){
-    show('screen-roundpause');
+  state.turnsTakenThisRound++;
+  if(state.turnsTakenThisRound >= state.aliveIndices.length){
+    openVotingScreen();
   } else {
+    const pointer = state.aliveIndices.indexOf(state.currentTurnIndex);
+    const nextPointer = (pointer + 1) % state.aliveIndices.length;
+    state.currentTurnIndex = state.aliveIndices[nextPointer];
     renderPlayScreen();
     show('screen-play');
     if(state.timerEnabled) startTimer();
@@ -894,20 +955,103 @@ q('nextTurnBtn').addEventListener('click', ()=>{ stopTimer(); advanceTurn(); });
 q('continueAfterTimeout').addEventListener('click', ()=> advanceTurn());
 q('backToMenuPlay').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
 
-q('startNextRound').addEventListener('click', ()=>{
+/* ============ VOTACIÓN Y ELIMINACIÓN ============ */
+let selectedVoteIndex = null;
+
+function openVotingScreen(){
+  stopTimer();
+  selectedVoteIndex = null;
+  renderVotingList();
+  show('screen-voting');
+}
+
+function renderVotingList(){
+  const list = q('votingList');
+  list.innerHTML = '';
+  q('confirmVoteBtn').disabled = true;
+  state.aliveIndices.forEach(i=>{
+    const name = state.players[i] || ("Jugador "+(i+1));
+    const card = document.createElement('div');
+    card.className = 'vote-card';
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = name.trim()[0].toUpperCase();
+    const label = document.createElement('span');
+    label.className = 'name';
+    label.textContent = name;
+    card.appendChild(avatar); card.appendChild(label);
+    card.addEventListener('click', ()=>{
+      selectedVoteIndex = i;
+      Array.from(list.children).forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      q('confirmVoteBtn').disabled = false;
+    });
+    list.appendChild(card);
+  });
+}
+
+q('confirmVoteBtn').addEventListener('click', ()=>{
+  if(selectedVoteIndex === null) return;
+  performElimination(selectedVoteIndex);
+});
+q('skipVoteBtn').addEventListener('click', ()=> continueNextRound());
+q('cancelMatchFromVote').addEventListener('click', ()=> show('screen-menu'));
+
+function continueNextRound(){
+  state.turnsTakenThisRound = 0;
+  let pointer = state.aliveIndices.indexOf(state.anchorIndex);
+  if(pointer === -1) pointer = 0;
+  state.currentTurnIndex = state.aliveIndices[pointer];
   state.roundCount++;
-  state.currentTurnIndex = 0;
   renderPlayScreen();
   show('screen-play');
   if(state.timerEnabled) startTimer();
-});
-q('backToMenuFromPause').addEventListener('click', ()=>{ stopTimer(); show('screen-menu'); });
+}
+
+function performElimination(idx){
+  state.aliveIndices = state.aliveIndices.filter(i=>i!==idx);
+
+  const remainingImpostors = state.aliveIndices.filter(i=>state.assignment[i].role==='impostor').length;
+  if(remainingImpostors === 0){ showWinScreen(); return; }
+
+  if(idx === state.anchorIndex){
+    let next = null;
+    for(let offset=1; offset<=state.numPlayers; offset++){
+      const cand = (idx+offset) % state.numPlayers;
+      if(state.aliveIndices.includes(cand)){ next = cand; break; }
+    }
+    state.anchorIndex = next;
+  }
+  continueNextRound();
+}
+
+function buildImpostorCards(container){
+  container.innerHTML = '';
+  let count = 0;
+  state.assignment.forEach((a,i)=>{
+    if(a.role === 'impostor'){
+      const div = document.createElement('div');
+      div.className = 'impostor-card-item';
+      div.style.animationDelay = (0.15*count)+'s';
+      div.textContent = '🕵️ ' + (state.players[i] || ("Jugador "+(i+1)));
+      container.appendChild(div);
+      count++;
+    }
+  });
+}
+
+function showWinScreen(){
+  buildImpostorCards(q('winImpostorsList'));
+  show('screen-win');
+}
+q('winBackToMenu').addEventListener('click', ()=> show('screen-menu'));
 
 /* ============ ACABAR PARTIDA (mantener 3s) ============ */
 function setupHoldButton(btnId, fillId, ms, onComplete){
   const btn = q(btnId), fill = q(fillId);
   let t = null;
-  function start(){
+  function start(e){
+    if(e.cancelable) e.preventDefault();
     fill.style.transition = `width ${ms}ms linear`;
     requestAnimationFrame(()=>{ fill.style.width = '100%'; });
     t = setTimeout(onComplete, ms);
@@ -919,25 +1063,15 @@ function setupHoldButton(btnId, fillId, ms, onComplete){
   }
   btn.addEventListener('pointerdown', start);
   ['pointerup','pointerleave','pointercancel'].forEach(evt => btn.addEventListener(evt, cancel));
+  btn.addEventListener('contextmenu', e=> e.preventDefault());
 }
 
 function triggerRevealImpostors(){
   stopTimer();
-  const list = q('impostorsList');
-  list.innerHTML = '';
-  state.assignment.forEach((a,i)=>{
-    if(a.role === 'impostor'){
-      const div = document.createElement('div');
-      div.className = 'impostor-card-item';
-      div.textContent = '🕵️ ' + (state.players[i] || ("Jugador "+(i+1)));
-      list.appendChild(div);
-    }
-  });
+  buildImpostorCards(q('impostorsList'));
   show('screen-revealimpostors');
 }
-
 setupHoldButton('holdEndBtnPlay', 'holdFillPlay', 3000, triggerRevealImpostors);
-setupHoldButton('holdEndBtnRoundPause', 'holdFillRoundPause', 3000, triggerRevealImpostors);
 
 q('revealBackToMenu').addEventListener('click', ()=> show('screen-menu'));
 </script>
